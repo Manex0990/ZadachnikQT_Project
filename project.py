@@ -130,7 +130,7 @@ class MyMath:
             self.answer = 'Корней нет'
             return self.answer
 
-    def check_answer_square_x(self, user_answer):
+    def check_answer_square_x(self, task, user_answer):
         """
         В качестве ответа может быть принято
         1) 2 корня кв уравнения через пробел(это могут быть целые числа или дробные(округлите до сотых) числа)
@@ -138,22 +138,22 @@ class MyMath:
         3) строка 'Корней нет'
         """
         if user_answer == 'Корней нет':
-            if str(self.answer_square_x()) == user_answer:
+            if str(self.answer_square_x(task)) == user_answer:
                 return 'Верно'
             else:
-                return f'Неверно. Правильный ответ {self.answer_square_x()}.'
+                return f'Неверно. Правильный ответ {self.answer_square_x(task)}.'
 
         elif isinstance(user_answer, int) or isinstance(user_answer, float):
-            if float(user_answer) == float(self.answer_square_x()):
+            if float(user_answer) == float(self.answer_square_x(task)):
                 return 'Верно'
             else:
-                return f'Неверно. Правильный ответ {self.answer_square_x()}.'
+                return f'Неверно. Правильный ответ {self.answer_square_x(task)}.'
 
         temp = [float(i) for i in user_answer.split(' ')]
-        if sorted(temp) == list(self.answer_square_x()):
+        if sorted(temp) == list(self.answer_square_x(task)):
             return ['Верно', True, 'square_x']
         else:
-            return [f'Неверно. Правильный ответ {self.answer_square_x()}.', False]
+            return [f'Неверно. Правильный ответ {self.answer_square_x(task)}.', False]
 
     def generate_line_x(self):
         """
@@ -207,15 +207,15 @@ class MyMath:
             self.x = round(temp_x / self.a_li, 2)
         return self.x
 
-    def check_answer_line_x(self, user_answer):
+    def check_answer_line_x(self, task, user_answer):
         """
         В качестве ответа может быть принято
         целое число или дробное(округлите до сотых) число
         """
-        if float(user_answer) == float(self.answer_line_x()):
+        if float(user_answer) == float(self.answer_line_x(task)):
             return ['Верно', True, 'line_x']
         else:
-            return [f'Неверно. Правильный ответ {self.answer_line_x()}.', False]
+            return [f'Неверно. Правильный ответ {self.answer_line_x(task)}.', False]
 
     def generate_sum_stage_1(self):
         """
@@ -234,14 +234,14 @@ class MyMath:
         self.b_s_1 = int(sum_1[2])
         return self.a_s_1 + self.b_s_1
 
-    def check_answer_sum_stage_1(self, user_answer):
+    def check_answer_sum_stage_1(self, task, user_answer):
         """
         Проверит ответ пользователя на пример на сложение простого уровня сложности
         """
-        if float(self.answer_sum_stage_1()) == float(user_answer):
+        if float(self.answer_sum_stage_1(task)) == float(user_answer):
             return ['Верно', True, 's_1']
         else:
-            return [f'Неверно. Правильный ответ {self.answer_sum_stage_1()}.', False]
+            return [f'Неверно. Правильный ответ {self.answer_sum_stage_1(task)}.', False]
 
     def generate_sum_stage_2(self):
         """
@@ -260,14 +260,14 @@ class MyMath:
         self.b_s_2 = float(sum_2[2])
         return self.a_s_2 + self.b_s_2
 
-    def check_answer_sum_stage_2(self, user_answer):
+    def check_answer_sum_stage_2(self, task, user_answer):
         """
         Проверит ответ пользователя на последний сгенерированный пример на сложение среднего уровня сложности
         """
-        if float(user_answer) == float(self.answer_sum_stage_2()):
+        if float(user_answer) == float(self.answer_sum_stage_2(task)):
             return ['Верно', True, 's_2']
         else:
-            return [f'Неверно. Правильный ответ {self.answer_sum_stage_2()}.', False]
+            return [f'Неверно. Правильный ответ {self.answer_sum_stage_2(task)}.', False]
 
     def generate_sum_stage_3(self):
         """
@@ -288,16 +288,16 @@ class MyMath:
         self.b_s_3 = float(sum_3[2])
         self.c_s_3 = float(sum_3[4])
         self.d_s_3 = int(sum_3[6])
-        return self.a_s_3 + self.b_s_3 + self.c_s_3 + self.d_s_3
+        return round(self.a_s_3 + self.b_s_3 + self.c_s_3 + self.d_s_3, 2)
 
-    def check_answer_sum_stage_3(self, user_answer):
+    def check_answer_sum_stage_3(self, task, user_answer):
         """
         Проверил ответ пользователя на пример на сложение высокого уровня сложности
         """
-        if float(user_answer) == float(self.answer_sum_stage_3()):
+        if float(user_answer) == float(self.answer_sum_stage_3(task)):
             return ['Верно', True, 's_3']
         else:
-            return [f'Неверно. Правильный ответ {self.answer_sum_stage_3()}.', False]
+            return [f'Неверно. Правильный ответ {self.answer_sum_stage_3(task)}.', False]
 
     def generate_min_stage_1(self):
         """
@@ -316,14 +316,14 @@ class MyMath:
         self.b_m_1 = int(min_1[2])
         return self.a_m_1 - self.b_m_1
 
-    def check_answer_min_stage_1(self, user_answer):
+    def check_answer_min_stage_1(self, task, user_answer):
         """
         Проверит ответ пользователя на пример на вычитание простого уровня сложности
         """
-        if float(self.answer_min_stage_1()) == float(user_answer):
+        if float(self.answer_min_stage_1(task)) == float(user_answer):
             return ['Верно', True, 'm_1']
         else:
-            return [f'Неверно. Правильный ответ {self.answer_min_stage_1()}.', False]
+            return [f'Неверно. Правильный ответ {self.answer_min_stage_1(task)}.', False]
 
     def generate_min_stage_2(self):
         """
@@ -342,14 +342,14 @@ class MyMath:
         self.b_m_2 = float(min_2[2])
         return round(self.a_m_2 - self.b_m_2, 2)
 
-    def check_answer_min_stage_2(self, user_answer):
+    def check_answer_min_stage_2(self, task, user_answer):
         """
         Проверит ответ пользователя на пример на вычитание среднего уровня сложности
         """
-        if float(user_answer) == float(self.answer_min_stage_2()):
+        if float(user_answer) == float(self.answer_min_stage_2(task)):
             return ['Верно', True, 'm_2']
         else:
-            return [f'Неверно. Правильный ответ {self.answer_min_stage_2()}', False]
+            return [f'Неверно. Правильный ответ {self.answer_min_stage_2(task)}', False]
 
     def generate_min_stage_3(self):
         """
@@ -372,14 +372,14 @@ class MyMath:
         self.d_m_3 = int(min_3[6])
         return round(self.a_m_3 - self.b_m_3 - self.c_m_3 - self.d_m_3, 2)
 
-    def check_answer_min_stage_3(self, user_answer):
+    def check_answer_min_stage_3(self, task, user_answer):
         """
         Проверит ответ пользователя на пример на вычитание высокого уровня сложности
         """
-        if float(user_answer) == float(self.answer_min_stage_3()):
+        if float(user_answer) == float(self.answer_min_stage_3(task)):
             return ['Верно', True, 'm_3']
         else:
-            return [f'Неверно. Правильный ответ {self.answer_min_stage_3}.', False]
+            return [f'Неверно. Правильный ответ {self.answer_min_stage_3(task)}.', False]
 
     def generate_crop_stage_1(self):
         """
@@ -401,14 +401,14 @@ class MyMath:
         else:
             return round(self.a_cr_1 / self.b_cr_1, 2)
 
-    def check_answer_crop_stage_1(self, user_answer):
+    def check_answer_crop_stage_1(self, task, user_answer):
         """
         Проверит ответ пользователя на пример на деление простого уровня сложности
         """
-        if float(self.answer_crop_stage_1()) == float(user_answer):
+        if float(self.answer_crop_stage_1(task)) == float(user_answer):
             return ['Верно', True, 'cr_1']
         else:
-            return [f'Неверно. Правильный ответ {self.answer_crop_stage_1()}.', False]
+            return [f'Неверно. Правильный ответ {self.answer_crop_stage_1(task)}.', False]
 
     def generate_crop_stage_2(self):
         """
@@ -427,14 +427,14 @@ class MyMath:
         self.b_cr_2 = float(crop_2[2])
         return round(self.a_cr_2 / self.b_cr_2, 2)
 
-    def check_answer_crop_stage_2(self, user_answer):
+    def check_answer_crop_stage_2(self, task, user_answer):
         """
         Проверит ответ пользователя на пример на деление среднего уровня сложности
         """
-        if float(user_answer) == float(self.answer_crop_stage_2()):
+        if float(user_answer) == float(self.answer_crop_stage_2(task)):
             return ['Верно', True, 'cr_2']
         else:
-            return [f'Неверно. Правильный ответ {self.answer_crop_stage_2()}.', False]
+            return [f'Неверно. Правильный ответ {self.answer_crop_stage_2(task)}.', False]
 
     def generate_crop_stage_3(self):
         """
@@ -444,7 +444,7 @@ class MyMath:
         self.b_cr_3 = round(uniform(1, 30), 2)
         self.c_cr_3 = round(uniform(1, 30), 2)
         self.d_cr_3 = randint(1, 30)
-        return f'({self.a_cr_3} : {self.b_cr_3}) : ({self.c_cr_3} : {self.d_cr_3}) = ?'
+        return f'{self.a_cr_3} : {self.b_cr_3} : {self.c_cr_3} : {self.d_cr_3} = ?'
 
     def answer_crop_stage_3(self, crop_3):
         """
@@ -459,14 +459,14 @@ class MyMath:
         temp2 = self.c_cr_3 / self.d_cr_3
         return round(temp1 / temp2, 2)
 
-    def check_answer_crop_stage_3(self, user_answer):
+    def check_answer_crop_stage_3(self, task, user_answer):
         """
         Проверит ответ пользователя на пример на деление высокого уровня сложности
         """
-        if float(user_answer) == float(self.answer_crop_stage_3()):
+        if float(user_answer) == float(self.answer_crop_stage_3(task)):
             return ['Верно', True, 'cr_3']
         else:
-            return [f'Неверно. Правильный ответ {self.answer_crop_stage_3()}', False]
+            return [f'Неверно. Правильный ответ {self.answer_crop_stage_3(task)}', False]
 
     def generate_multiply_stage_1(self):
         """
@@ -485,14 +485,14 @@ class MyMath:
         self.b_mul_1 = int(mul_1[2])
         return self.a_mul_1 * self.b_mul_1
 
-    def check_answer_multiply_stage_1(self, user_answer):
+    def check_answer_multiply_stage_1(self, task, user_answer):
         """
         Проверит ответ пользователя на пример на умножение простого уровня сложности
         """
-        if float(self.answer_multiply_stage_1()) == float(user_answer):
+        if float(self.answer_multiply_stage_1(task)) == float(user_answer):
             return ['Верно', True, 'mul_1']
         else:
-            return [f'Неверно. Правильный ответ {self.answer_multiply_stage_1()}.', False]
+            return [f'Неверно. Правильный ответ {self.answer_multiply_stage_1(task)}.', False]
 
     def generate_multiply_stage_2(self):
         """
@@ -511,14 +511,14 @@ class MyMath:
         self.b_mul_2 = float(mul_2[2])
         return round(self.a_mul_2 * self.b_mul_2, 2)
 
-    def check_answer_multiply_stage_2(self, user_answer):
+    def check_answer_multiply_stage_2(self, task, user_answer):
         """
         Проверит ответ пользователя на пример на умножение среднего уровня сложности
         """
-        if float(user_answer) == float(self.answer_multiply_stage_2()):
+        if float(user_answer) == float(self.answer_multiply_stage_2(task)):
             return ['Верно', True, 'mul_2']
         else:
-            return [f'Неверно. Правильный ответ {self.answer_multiply_stage_2()}', False]
+            return [f'Неверно. Правильный ответ {self.answer_multiply_stage_2(task)}', False]
 
     def generate_multiply_stage_3(self):
         """
@@ -528,7 +528,7 @@ class MyMath:
         self.b_mul_3 = round(uniform(1, 10), 2)
         self.c_mul_3 = round(uniform(1, 10), 2)
         self.d_mul_3 = randint(1, 10)
-        return f'({self.a_mul_3} * {self.b_mul_3}) * ({self.c_mul_3} * {self.d_mul_3}) = ?'
+        return f'{self.a_mul_3} * {self.b_mul_3} * {self.c_mul_3} * {self.d_mul_3} = ?'
 
     def answer_multiply_stage_3(self, mul_3):
         """
@@ -539,16 +539,16 @@ class MyMath:
         self.b_mul_3 = float(mul_3[2])
         self.c_mul_3 = float(mul_3[4])
         self.d_mul_3 = int(mul_3[6])
-        return round((self.a_mul_3 * self.b_mul_3) * (self.c_mul_3 * self.d_mul_3), 2)
+        return round(self.a_mul_3 * self.b_mul_3 * self.c_mul_3 * self.d_mul_3, 2)
 
-    def check_answer_multiply_stage_3(self, user_answer):
+    def check_answer_multiply_stage_3(self, task, user_answer):
         """
         Проверит ответ пользователя на пример на умножение высокого уровня сложности
         """
-        if float(user_answer) == float(self.answer_multiply_stage_3()):
+        if float(user_answer) == float(self.answer_multiply_stage_3(task)):
             return ['Верно', True, 'mul_3']
         else:
-            return [f'Неверно. Правильный ответ {self.answer_multiply_stage_3()}', False]
+            return [f'Неверно. Правильный ответ {self.answer_multiply_stage_3(task)}', False]
 
     def create_easy_test(self):
         self.creater = MyMath()
@@ -572,10 +572,35 @@ class MyMath:
         return self.answers
 
     def create_hard_test(self):
-        pass
+        self.creater = MyMath()
+        self.task1_1 = self.creater.generate_square_x()
+        self.task2_1 = self.creater.generate_line_x()
+        self.task3_1 = self.creater.generate_sum_stage_2()
+        self.task4_1 = self.creater.generate_sum_stage_3()
+        self.task5_1 = self.creater.generate_min_stage_2()
+        self.task6_1 = self.creater.generate_min_stage_3()
+        self.task7_1 = self.creater.generate_multiply_stage_2()
+        self.task8_1 = self.creater.generate_multiply_stage_3()
+        self.task9_1 = self.creater.generate_crop_stage_2()
+        self.task10_1 = self.creater.generate_crop_stage_3()
+        self.task_list_1 = [self.task1_1, self.task2_1, self.task3_1, self.task4_1, self.task5_1,
+                            self.task6_1, self.task7_1, self.task8_1, self.task9_1, self.task10_1]
+        return self.task_list_1
 
-    def answer_hard_test(self):
-        pass
+    def answer_hard_test(self, task_list):
+        self.ans1_1 = self.answer_square_x(task_list[0])
+        self.ans2_1 = self.answer_line_x(task_list[1])
+        self.ans3_1 = self.answer_sum_stage_2(task_list[2])
+        self.ans4_1 = self.answer_sum_stage_3(task_list[3])
+        self.ans5_1 = self.answer_min_stage_2(task_list[4])
+        self.ans6_1 = self.answer_min_stage_3(task_list[5])
+        self.ans7_1 = self.answer_multiply_stage_2(task_list[6])
+        self.ans8_1 = self.answer_multiply_stage_3(task_list[7])
+        self.ans9_1 = self.answer_crop_stage_2(task_list[8])
+        self.ans10_1 = self.answer_crop_stage_3(task_list[9])
+        self.answers_1 = [self.ans1_1, self.ans2_1, self.ans3_1, self.ans4_1, self.ans5_1,
+                          self.ans6_1, self.ans7_1, self.ans8_1, self.ans9_1, self.ans10_1]
+        return self.answers_1
 
     def edit_rating_tasks(self, login, true_task):
         data_tasks = {'square_x': 15, 'line_x': 10, 's_1': 3, 's_2': 5, 's_3': 10,
@@ -596,11 +621,3 @@ class MyMath:
 
     def edit_rating_tests(self, login, true_test):
         pass
-
-
-ex = MyMath()
-temp = ex.create_easy_test()
-print(temp)
-print(ex.answer_easy_test(temp))
-
-
