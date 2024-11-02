@@ -1,3 +1,8 @@
+from random import randint, uniform
+import sqlite3
+
+
+class MyMath:
     def generate_square_x(self):
         """
         Вернет кв уравнение в строковом формате.
