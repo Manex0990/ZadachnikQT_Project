@@ -1,7 +1,7 @@
 Язык проектирования: Python 3.12
 Базы данных: sqlite3
 Проектирование приложения и работа с виджетами: PyQt6
-Использованные технологии PyQt6: QMainWidget, QApplication, QPushButton, QLabel, QRadioButton, QLineEdit, возможно(QListWidget).
+Использованные технологии PyQt6: QMainWidget, QApplication, QPushButton, QLabel, QRadioButton, QLineEdit, QLCDNumber, возможно(QListWidget).
 
 Все функции приложения будут осуществляться при помощи класса MyMath из файла project.py.
 Он будет импортирован в файл project_qt.py и будет выполнять соответсвующие нажатию кнопок пользователем функции.
