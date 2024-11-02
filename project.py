@@ -1,78 +1,73 @@
-from random import randint, uniform
-import sqlite3
-
-
-class MyMath:
     def generate_square_x(self):
         """
         Вернет кв уравнение в строковом формате.
         """
-        self.a_sq = randint(-3, 5)
-        if self.a_sq == 0:
-            while self.a_sq == 0:
-                self.a_sq = randint(-3, 5)
-        self.b_sq = randint(-9, 9)
-        self.c_sq = randint(-9, 9)
-        if self.b_sq == 0:
-            self.b_sq = 1
-        elif self.c_sq == 0:
-            self.c_sq = 1
+        a_sq = randint(-3, 5)
+        if a_sq == 0:
+            while a_sq == 0:
+                a_sq = randint(-3, 5)
+        b_sq = randint(-9, 9)
+        c_sq = randint(-9, 9)
+        if b_sq == 0:
+            b_sq = 1
+        elif c_sq == 0:
+            c_sq = 1
 
-        if self.b_sq == 1:
-            if self.c_sq < 0 and self.a_sq != 1 and self.a_sq != -1:
-                return f'{self.a_sq}x\u00B2 + x - {-self.c_sq} = 0'
-            elif self.c_sq < 0 and self.a_sq == -1:
-                return f'-x\u00B2 + x - {-self.c_sq} = 0'
-            elif self.c_sq < 0 and self.a_sq == 1:
-                return f'x\u00B2 + x - {-self.c_sq} = 0'
-            elif self.c_sq > 0 and self.a_sq != 1 and self.a_sq != -1:
-                return f'{self.a_sq}x\u00B2 + x + {self.c_sq} = 0'
-            elif self.c_sq > 0 and self.a_sq == -1:
-                return f'-x\u00B2 + x + {self.c_sq} = 0'
-            elif self.c_sq > 0 and self.a_sq == 1:
-                return f'x\u00B2 + x + {self.c_sq} = 0'
+        if b_sq == 1:
+            if c_sq < 0 and a_sq != 1 and a_sq != -1:
+                return f'{a_sq}x\u00B2 + x - {-c_sq} = 0'
+            elif c_sq < 0 and a_sq == -1:
+                return f'-x\u00B2 + x - {-c_sq} = 0'
+            elif c_sq < 0 and a_sq == 1:
+                return f'x\u00B2 + x - {-c_sq} = 0'
+            elif c_sq > 0 and a_sq != 1 and a_sq != -1:
+                return f'{a_sq}x\u00B2 + x + {c_sq} = 0'
+            elif c_sq > 0 and a_sq == -1:
+                return f'-x\u00B2 + x + {c_sq} = 0'
+            elif c_sq > 0 and a_sq == 1:
+                return f'x\u00B2 + x + {c_sq} = 0'
 
-        elif self.b_sq == -1:
-            if self.c_sq < 0 and self.a_sq != 1 and self.a_sq != -1:
-                return f'{self.a_sq}x\u00B2 - x - {-self.c_sq} = 0'
-            elif self.c_sq < 0 and self.a_sq == -1:
-                return f'-x\u00B2 - x - {-self.c_sq} = 0'
-            elif self.c_sq < 0 and self.a_sq == 1:
+        elif b_sq == -1:
+            if c_sq < 0 and a_sq != 1 and a_sq != -1:
+                return f'{a_sq}x\u00B2 - x - {-c_sq} = 0'
+            elif c_sq < 0 and a_sq == -1:
+                return f'-x\u00B2 - x - {-c_sq} = 0'
+            elif c_sq < 0 and a_sq == 1:
                 return f'x\u00B2 - x - {-self.c_sq} = 0'
-            elif self.c_sq > 0 and self.a_sq != 1 and self.a_sq != -1:
-                return f'{self.a_sq}x\u00B2 - x + {self.c_sq} = 0'
-            elif self.c_sq > 0 and self.a_sq == -1:
-                return f'-x\u00B2 - x + {self.c_sq} = 0'
-            elif self.c_sq > 0 and self.a_sq == 1:
-                return f'x\u00B2 - x + {self.c_sq} = 0'
+            elif c_sq > 0 and a_sq != 1 and a_sq != -1:
+                return f'{a_sq}x\u00B2 - x + {c_sq} = 0'
+            elif c_sq > 0 and a_sq == -1:
+                return f'-x\u00B2 - x + {c_sq} = 0'
+            elif c_sq > 0 and a_sq == 1:
+                return f'x\u00B2 - x + {c_sq} = 0'
 
         else:
-            if self.b_sq > 0:
-                if self.c_sq < 0 and self.a_sq != 1 and self.a_sq != -1:
-                    return f'{self.a_sq}x\u00B2 + {self.b_sq}x - {-self.c_sq} = 0'
-                elif self.c_sq < 0 and self.a_sq == -1:
-                    return f'-x\u00B2 + {self.b_sq}x - {-self.c_sq} = 0'
-                elif self.c_sq < 0 and self.a_sq == 1:
-                    return f'x\u00B2 + {self.b_sq}x - {-self.c_sq} = 0'
-                elif self.c_sq > 0 and self.a_sq != 1 and self.b_sq != -1:
-                    return f'{self.a_sq}x\u00B2 + {self.b_sq}x + {self.c_sq} = 0'
-                elif self.c_sq > 0 and self.a_sq == -1:
-                    return f'-x\u00B2 + {self.b_sq}x + {self.c_sq} = 0'
-                elif self.c_sq > 0 and self.a_sq == 1:
-                    return f'x\u00B2 + {self.b_sq}x + {self.c_sq} = 0'
-            elif self.b_sq < 0:
-                if self.c_sq < 0 and self.a_sq != 1 and self.a_sq != -1:
-                    return f'{self.a_sq}x\u00B2 - {-self.b_sq}x - {-self.c_sq} = 0'
-                elif self.c_sq < 0 and self.a_sq == -1:
-                    return f'-x\u00B2 - {-self.b_sq}x - {-self.c_sq} = 0'
-                elif self.c_sq < 0 and self.a_sq == 1:
-                    return f'x\u00B2 - {-self.b_sq}x - {-self.c_sq} = 0'
-                elif self.c_sq > 0 and self.a_sq != 1 and self.a_sq != -1:
-                    return f'{self.a_sq}x\u00B2 - {-self.b_sq}x + {self.c_sq} = 0'
-                elif self.c_sq > 0 and self.a_sq == -1:
-                    return f'-x\u00B2 - {-self.b_sq}x + {self.c_sq} = 0'
-                elif self.c_sq > 0 and self.a_sq == 1:
-                    return f'x\u00B2 - {-self.b_sq}x + {self.c_sq} = 0'
+            if b_sq > 0:
+                if c_sq < 0 and a_sq != 1 and a_sq != -1:
+                    return f'{a_sq}x\u00B2 + {b_sq}x - {-c_sq} = 0'
+                elif c_sq < 0 and a_sq == -1:
+                    return f'-x\u00B2 + {b_sq}x - {-c_sq} = 0'
+                elif c_sq < 0 and a_sq == 1:
+                    return f'x\u00B2 + {b_sq}x - {-c_sq} = 0'
+                elif c_sq > 0 and a_sq != 1 and b_sq != -1:
+                    return f'{a_sq}x\u00B2 + {b_sq}x + {c_sq} = 0'
+                elif c_sq > 0 and a_sq == -1:
+                    return f'-x\u00B2 + {b_sq}x + {c_sq} = 0'
+                elif c_sq > 0 and a_sq == 1:
+                    return f'x\u00B2 + {b_sq}x + {c_sq} = 0'
+            elif b_sq < 0:
+                if c_sq < 0 and a_sq != 1 and a_sq != -1:
+                    return f'{a_sq}x\u00B2 - {-b_sq}x - {-c_sq} = 0'
+                elif c_sq < 0 and a_sq == -1:
+                    return f'-x\u00B2 - {-b_sq}x - {-c_sq} = 0'
+                elif c_sq < 0 and a_sq == 1:
+                    return f'x\u00B2 - {-b_sq}x - {-c_sq} = 0'
+                elif c_sq > 0 and a_sq != 1 and a_sq != -1:
+                    return f'{a_sq}x\u00B2 - {-b_sq}x + {c_sq} = 0'
+                elif c_sq > 0 and a_sq == -1:
+                    return f'-x\u00B2 - {-b_sq}x + {c_sq} = 0'
+                elif c_sq > 0 and a_sq == 1:
+                    return f'x\u00B2 - {-b_sq}x + {c_sq} = 0'
 
     def answer_square_x(self, square_x):
         """
@@ -83,52 +78,52 @@ class MyMath:
            """
         coofs = []
         if square_x.startswith('-'):
-            self.a_sq = -1
+            a_sq = -1
         elif square_x.startswith('x'):
-            self.a_sq = 1
+            a_sq = 1
         else:
             for i in square_x:
                 if i != '\u00B2' and i.isdigit() and int(i) != 0:
                     coofs.append(i)
-            self.a_sq = int(coofs[0])
+            a_sq = int(coofs[0])
 
         square_x = square_x.split()
         if square_x[1] == '-' and square_x[2] == 'x':
-            self.b_sq = -1
+            b_sq = -1
         elif square_x[1] == '+' and square_x[2] == 'x':
-            self.b_sq = 1
+            b_sq = 1
         else:
             if square_x[1] == '-':
-                self.b_sq = -int(square_x[2][0])
+                b_sq = -int(square_x[2][0])
             elif square_x[1] == '+':
-                self.b_sq = int(square_x[2][0])
+                b_sq = int(square_x[2][0])
 
         if square_x[3] == '-':
-            self.c_sq = -int(square_x[4])
+            c_sq = -int(square_x[4])
         elif square_x[3] == '+':
-            self.c_sq = int(square_x[4])
+            c_sq = int(square_x[4])
 
-        d = (abs(self.b_sq) ** 2) - (4 * self.a_sq * self.c_sq)
+        d = (abs(b_sq) ** 2) - (4 * a_sq * c_sq)
         if d == 0:
-            self.answer = (-self.b_sq) / (2 * self.a_sq)
-            return int(self.answer)
+            answer = (-b_sq) / (2 * a_sq)
+            return int(answer)
 
         elif d > 0:
-            x1 = (-self.b_sq - d ** 0.5) / (2 * self.a_sq)
-            x2 = (-self.b_sq + d ** 0.5) / (2 * self.a_sq)
+            x1 = (-b_sq - d ** 0.5) / (2 * a_sq)
+            x2 = (-b_sq + d ** 0.5) / (2 * a_sq)
             if int(x1) == x1 and isinstance(x2, float):
-                self.answer = sorted([int(x1), round(x2, 2)])
+                answer = sorted([int(x1), round(x2, 2)])
             elif int(x2) == x2 and isinstance(x1, float):
-                self.answer = sorted([round(x1, 2), int(x2)])
+                answer = sorted([round(x1, 2), int(x2)])
             elif int(x1) == x1 and int(x2) == x2:
-                self.answer = sorted([int(x1), int(x2)])
+                answer = sorted([int(x1), int(x2)])
             elif isinstance(x1, float) and isinstance(x2, float):
-                self.answer = sorted([round(x1, 2), round(x2, 2)])
-            return self.answer
+                answer = sorted([round(x1, 2), round(x2, 2)])
+            return answer
 
         else:
-            self.answer = 'Корней нет'
-            return self.answer
+            answer = 'Корней нет'
+            return answer
 
     def check_answer_square_x(self, task, user_answer):
         """
@@ -159,22 +154,25 @@ class MyMath:
         """
         Вернет линейное уравнение в строковом формате
         """
-        self.a_li = randint(-9, 9)
-        self.b_li = randint(-9, 9)
-        self.c_li = randint(-9, 9)
+        a_li = randint(-9, 9)
+        if a_li == 0:
+            a_li = 1
+        b_li = randint(-9, 9)
+        c_li = randint(-9, 9)
+        if c_li == 0:
+            c_li = 1
 
-        if self.b_li < 0:
-            line_x = f'{self.a_li}x - {-self.b_li} = {self.c_li}'
-        elif self.b_li > 0:
-            line_x = f'{self.a_li}x + {self.b_li} = {self.c_li}'
-        elif self.b_li == 0:
-            self.b_li = 1
-            line_x = f'{self.a_li}x + {self.b_li} = {self.c_li}'
+        if b_li < 0:
+            line_x = f'{a_li}x - {-b_li} = {c_li}'
+        elif b_li > 0:
+            line_x = f'{a_li}x + {b_li} = {c_li}'
+        elif b_li == 0:
+            b_li = 1
+            line_x = f'{a_li}x + {b_li} = {c_li}'
 
-        if self.a_li == 1 or self.a_li == 0:
-            self.a_li = 1
+        if a_li == 1:
             line_x = line_x[1:]
-        elif self.a_li == -1:
+        elif a_li == -1:
             line_x = f'-{line_x[2:]}'
         return line_x
 
@@ -184,28 +182,28 @@ class MyMath:
         """
         line_x = line_x.split()
         if line_x[0][0] == '-' and line_x[0][1] == 'x':
-            self.a_li = -1
+            a_li = -1
         elif line_x[0] == 'x':
-            self.a_li = 1
+            a_li = 1
         else:
             if line_x[0][0] == '-':
-                self.a_li = -int(line_x[0][1])
+                a_li = -int(line_x[0][1])
             else:
-                self.a_li = int(line_x[0][0])
+                a_li = int(line_x[0][0])
 
         if line_x[1] == '-':
-            self.b_li = -int(line_x[2])
+            b_li = -int(line_x[2])
         elif line_x[1] == '+':
-            self.b_li = int(line_x[2])
+            b_li = int(line_x[2])
 
-        self.c_li = int(line_x[-1])
+        c_li = int(line_x[-1])
 
-        temp_x = self.c_li + (-self.b_li)
-        if temp_x / self.a_li == temp_x // self.a_li:
-            self.x = temp_x // self.a_li
+        temp_x = c_li + (-b_li)
+        if temp_x / a_li == temp_x // a_li:
+            x = int(temp_x / a_li)
         else:
-            self.x = round(temp_x / self.a_li, 2)
-        return self.x
+            x = round(temp_x / a_li, 2)
+        return x
 
     def check_answer_line_x(self, task, user_answer):
         """
@@ -218,14 +216,92 @@ class MyMath:
             return [f'Неверно. Правильный ответ {self.answer_line_x(task)}.', False]
 
     def search_coofs_for_stage_1_2(self, task):
+        """
+        Находит коэффициенты примеров простого и среднего уровня сложности.
+        """
         task = task.split()
-        self.coofs = [float(task[0]), float(task[2])]
-        return self.coofs
+        coofs = [float(task[0]), float(task[2])]
+        return coofs
 
     def search_coofs_for_stage_3(self, task):
+        """
+        Находит коэффициенты примеров сложного уровня сложности.
+        """
         task = task.split()
-        self.coofs = [int(task[0]), float(task[2]), float(task[4]), int(task[6])]
-        return self.coofs
+        coofs = [int(task[0]), float(task[2]), float(task[4]), int(task[6])]
+        return coofs
+
+    def answer_for_all_stages(self, task):
+        """
+        Находит решение на любой пример всех сложностей.
+        """
+        task = task.split()
+        stage = 0
+
+        if len(task) == 5:
+            try:
+                task[0] = int(task[0])
+                task[2] = int(task[2])
+                stage = 1
+                task[0] = str(task[0])
+                task[2] = str(task[2])
+            except ValueError:
+                pass
+            try:
+                task[0] = float(task[0])
+                task[2] = float(task[2])
+                stage = 2
+                task[0] = str(task[0])
+                task[2] = str(task[2])
+            except ValueError:
+                pass
+        elif len(task) == 9:
+            stage = 3
+
+        if task[1] == '+':
+            task = ' '.join(task)
+            if stage == 1:
+                a, b = self.search_coofs_for_stage_1_2(task)
+                return a + b
+            elif stage == 2:
+                a, b = self.search_coofs_for_stage_1_2(task)
+                return round(a + b, 2)
+            elif stage == 3:
+                a, b, c, d = self.search_coofs_for_stage_3(task)
+                return round(a + b + c + d, 2)
+        elif task[1] == '-':
+            task = ' '.join(task)
+            if stage == 1:
+                a, b = self.search_coofs_for_stage_1_2(task)
+                return a - b
+            elif stage == 2:
+                a, b = self.search_coofs_for_stage_1_2(task)
+                return round(a - b, 2)
+            elif stage == 3:
+                a, b, c, d = self.search_coofs_for_stage_3(task)
+                return round(a - b - c - d, 2)
+        elif task[1] == ':':
+            task = ' '.join(task)
+            if stage == 1:
+                a, b = self.search_coofs_for_stage_1_2(task)
+                return a / b
+            elif stage == 2:
+                a, b = self.search_coofs_for_stage_1_2(task)
+                return round(a / b, 2)
+            elif stage == 3:
+                a, b, c, d = self.search_coofs_for_stage_3(task)
+                return round(a / b / c / d, 2)
+        elif task[1] == '*':
+            task = ' '.join(task)
+            if stage == 1:
+                a, b = self.search_coofs_for_stage_1_2(task)
+                return a * b
+            elif stage == 2:
+                a, b = self.search_coofs_for_stage_1_2(task)
+                return round(a * b, 2)
+            elif stage == 3:
+                a, b, c, d = self.search_coofs_for_stage_3(task)
+                return round(a * b * c * d, 2)
 
     def generate_sum_stage_1(self):
         """
@@ -235,21 +311,14 @@ class MyMath:
         b_s_1 = randint(1, 101)
         return f'{a_s_1} + {b_s_1} = ?'
 
-    def answer_sum_stage_1(self, sum_1):
-        """
-        Вернет решение последнего сгенерированного примера на сложение простого уровня сложности
-        """
-        a_s_1, b_s_1 = self.search_coofs_for_stage_1_2(sum_1)
-        return a_s_1 + b_s_1
-
     def check_answer_sum_stage_1(self, task, user_answer):
         """
         Проверит ответ пользователя на пример на сложение простого уровня сложности
         """
-        if float(self.answer_sum_stage_1(task)) == float(user_answer):
+        if float(self.answer_for_all_stages(task)) == float(user_answer):
             return ['Верно', True, 's_1']
         else:
-            return [f'Неверно. Правильный ответ {self.answer_sum_stage_1(task)}.', False]
+            return [f'Неверно. Правильный ответ {self.answer_for_all_stages(task)}.', False]
 
     def generate_sum_stage_2(self):
         """
@@ -259,21 +328,14 @@ class MyMath:
         b_s_2 = round(uniform(1, 20), 2)
         return f'{a_s_2} + {b_s_2} = ?'
 
-    def answer_sum_stage_2(self, sum_2):
-        """
-        Вернет ответ на последний сгенерированный пример на сложение среднего уровня сложности
-        """
-        a_s_2, b_s_2 = self.search_coofs_for_stage_1_2(sum_2)
-        return a_s_2 + b_s_2
-
     def check_answer_sum_stage_2(self, task, user_answer):
         """
         Проверит ответ пользователя на последний сгенерированный пример на сложение среднего уровня сложности
         """
-        if float(user_answer) == float(self.answer_sum_stage_2(task)):
+        if float(user_answer) == float(self.answer_for_all_stages(task)):
             return ['Верно', True, 's_2']
         else:
-            return [f'Неверно. Правильный ответ {self.answer_sum_stage_2(task)}.', False]
+            return [f'Неверно. Правильный ответ {self.answer_for_all_stages(task)}.', False]
 
     def generate_sum_stage_3(self):
         """
@@ -285,21 +347,14 @@ class MyMath:
         d_s_3 = randint(1, 30)
         return f'{a_s_3} + {b_s_3} + {c_s_3} + {d_s_3} = ?'
 
-    def answer_sum_stage_3(self, sum_3):
-        """
-        Вернет ответ на последний сгенерированный пример на сложение высокого уровня сложности
-        """
-        a_s_3, b_s_3, c_s_3, d_s_3 = self.search_coofs_for_stage_3(sum_3)
-        return round(a_s_3 + b_s_3 + c_s_3 + d_s_3, 2)
-
     def check_answer_sum_stage_3(self, task, user_answer):
         """
         Проверил ответ пользователя на пример на сложение высокого уровня сложности
         """
-        if float(user_answer) == float(self.answer_sum_stage_3(task)):
+        if float(user_answer) == float(self.answer_for_all_stages(task)):
             return ['Верно', True, 's_3']
         else:
-            return [f'Неверно. Правильный ответ {self.answer_sum_stage_3(task)}.', False]
+            return [f'Неверно. Правильный ответ {self.answer_for_all_stages(task)}.', False]
 
     def generate_min_stage_1(self):
         """
@@ -309,21 +364,14 @@ class MyMath:
         b_m_1 = randint(1, 101)
         return f'{a_m_1} - {b_m_1} = ?'
 
-    def answer_min_stage_1(self, min_1):
-        """
-        Вернет решение последнего сгенерированного примера на вычитание простого уровня сложности
-        """
-        a_m_1, b_m_1 = self.search_coofs_for_stage_1_2(min_1)
-        return a_m_1 - b_m_1
-
     def check_answer_min_stage_1(self, task, user_answer):
         """
         Проверит ответ пользователя на пример на вычитание простого уровня сложности
         """
-        if float(self.answer_min_stage_1(task)) == float(user_answer):
+        if float(self.answer_for_all_stages(task)) == float(user_answer):
             return ['Верно', True, 'm_1']
         else:
-            return [f'Неверно. Правильный ответ {self.answer_min_stage_1(task)}.', False]
+            return [f'Неверно. Правильный ответ {self.answer_for_all_stages(task)}.', False]
 
     def generate_min_stage_2(self):
         """
@@ -333,47 +381,33 @@ class MyMath:
         b_m_2 = round(uniform(1, 20), 2)
         return f'{a_m_2} - {b_m_2} = ?'
 
-    def answer_min_stage_2(self, min_2):
-        """
-        Вернет ответ на последний сгенерированный пример на вычитание среднего уровня сложности
-        """
-        a_m_2, b_m_2 = self.search_coofs_for_stage_1_2(min_2)
-        return round(a_m_2 - b_m_2, 2)
-
     def check_answer_min_stage_2(self, task, user_answer):
         """
         Проверит ответ пользователя на пример на вычитание среднего уровня сложности
         """
-        if float(user_answer) == float(self.answer_min_stage_2(task)):
+        if float(user_answer) == float(self.answer_for_all_stages(task)):
             return ['Верно', True, 'm_2']
         else:
-            return [f'Неверно. Правильный ответ {self.answer_min_stage_2(task)}', False]
+            return [f'Неверно. Правильный ответ {self.answer_for_all_stages(task)}', False]
 
     def generate_min_stage_3(self):
         """
         Вернет пример на вычитание высокого уровня сложности в строковом формате
         """
-        a_m_3 = randint(1, 30)
-        b_m_3 = round(uniform(1, 30), 2)
-        c_m_3 = round(uniform(1, 30), 2)
-        d_m_3 = randint(1, 30)
+        a_m_3 = randint(50, 100)
+        b_m_3 = round(uniform(30, 50), 2)
+        c_m_3 = round(uniform(20, 30), 2)
+        d_m_3 = randint(1, 20)
         return f'{a_m_3} - {b_m_3} - {c_m_3} - {d_m_3} = ?'
-
-    def answer_min_stage_3(self, min_3):
-        """
-        Вернет ответ на последний сгенерированный пример на вычитание высокого уровня сложности
-        """
-        a_m_3, b_m_3, c_m_3, d_m_3 = self.search_coofs_for_stage_3(min_3)
-        return round(a_m_3 - b_m_3 - c_m_3 - d_m_3, 2)
 
     def check_answer_min_stage_3(self, task, user_answer):
         """
         Проверит ответ пользователя на пример на вычитание высокого уровня сложности
         """
-        if float(user_answer) == float(self.answer_min_stage_3(task)):
+        if float(user_answer) == float(self.answer_for_all_stages(task)):
             return ['Верно', True, 'm_3']
         else:
-            return [f'Неверно. Правильный ответ {self.answer_min_stage_3(task)}.', False]
+            return [f'Неверно. Правильный ответ {self.answer_for_all_stages(task)}.', False]
 
     def generate_crop_stage_1(self):
         """
@@ -383,24 +417,14 @@ class MyMath:
         b_cr_1 = randint(1, 51)
         return f'{a_cr_1} : {b_cr_1} = ?'
 
-    def answer_crop_stage_1(self, crop_1):
-        """
-        Вернет решение последнего сгенерированного примера на деление
-        """
-        a_cr_1, b_cr_1 = self.search_coofs_for_stage_1_2(crop_1)
-        if a_cr_1 / b_cr_1 == a_cr_1 // b_cr_1:
-            return int(a_cr_1 / b_cr_1)
-        else:
-            return round(a_cr_1 / b_cr_1, 2)
-
     def check_answer_crop_stage_1(self, task, user_answer):
         """
         Проверит ответ пользователя на пример на деление простого уровня сложности
         """
-        if float(self.answer_crop_stage_1(task)) == float(user_answer):
+        if float(self.answer_for_all_stages(task)) == float(user_answer):
             return ['Верно', True, 'cr_1']
         else:
-            return [f'Неверно. Правильный ответ {self.answer_crop_stage_1(task)}.', False]
+            return [f'Неверно. Правильный ответ {self.answer_for_all_stages(task)}.', False]
 
     def generate_crop_stage_2(self):
         """
@@ -410,21 +434,14 @@ class MyMath:
         b_cr_2 = round(uniform(1, 20), 2)
         return f'{a_cr_2} : {b_cr_2} = ?'
 
-    def answer_crop_stage_2(self, crop_2):
-        """
-        Вернет ответ на последний сгенерированный пример на деление среднего уровня сложности
-        """
-        a_cr_2, b_cr_2 = self.search_coofs_for_stage_1_2(crop_2)
-        return round(a_cr_2 / b_cr_2, 2)
-
     def check_answer_crop_stage_2(self, task, user_answer):
         """
         Проверит ответ пользователя на пример на деление среднего уровня сложности
         """
-        if float(user_answer) == float(self.answer_crop_stage_2(task)):
+        if float(user_answer) == float(self.answer_for_all_stages(task)):
             return ['Верно', True, 'cr_2']
         else:
-            return [f'Неверно. Правильный ответ {self.answer_crop_stage_2(task)}.', False]
+            return [f'Неверно. Правильный ответ {self.answer_for_all_stages(task)}.', False]
 
     def generate_crop_stage_3(self):
         """
@@ -436,21 +453,14 @@ class MyMath:
         d_cr_3 = randint(1, 20)
         return f'{a_cr_3} : {b_cr_3} : {c_cr_3} : {d_cr_3} = ?'
 
-    def answer_crop_stage_3(self, crop_3):
-        """
-        Вернет ответ на последний сгенерированный пример на деление высокого уровня сложности
-        """
-        a_cr_3, b_cr_3, c_cr_3, d_cr_3 = self.search_coofs_for_stage_3(crop_3)
-        return round(a_cr_3 / b_cr_3 / c_cr_3 / d_cr_3, 2)
-
     def check_answer_crop_stage_3(self, task, user_answer):
         """
         Проверит ответ пользователя на пример на деление высокого уровня сложности
         """
-        if float(user_answer) == float(self.answer_crop_stage_3(task)):
+        if float(user_answer) == float(self.answer_for_all_stages(task)):
             return ['Верно', True, 'cr_3']
         else:
-            return [f'Неверно. Правильный ответ {self.answer_crop_stage_3(task)}', False]
+            return [f'Неверно. Правильный ответ {self.answer_for_all_stages(task)}', False]
 
     def generate_multiply_stage_1(self):
         """
@@ -460,21 +470,14 @@ class MyMath:
         b_mul_1 = randint(1, 21)
         return f'{a_mul_1} * {b_mul_1} = ?'
 
-    def answer_multiply_stage_1(self, mul_1):
-        """
-        Вернет решение последнего сгенерированного примера на умножение
-        """
-        a_mul_1, b_mul_1 = self.search_coofs_for_stage_1_2(mul_1)
-        return a_mul_1 * b_mul_1
-
     def check_answer_multiply_stage_1(self, task, user_answer):
         """
         Проверит ответ пользователя на пример на умножение простого уровня сложности
         """
-        if float(self.answer_multiply_stage_1(task)) == float(user_answer):
+        if float(self.answer_for_all_stages(task)) == float(user_answer):
             return ['Верно', True, 'mul_1']
         else:
-            return [f'Неверно. Правильный ответ {self.answer_multiply_stage_1(task)}.', False]
+            return [f'Неверно. Правильный ответ {self.answer_for_all_stages(task)}.', False]
 
     def generate_multiply_stage_2(self):
         """
@@ -484,21 +487,14 @@ class MyMath:
         b_mul_2 = round(uniform(1, 10), 2)
         return f'{a_mul_2} * {b_mul_2} = ?'
 
-    def answer_multiply_stage_2(self, mul_2):
-        """
-        Вернет ответ на последний сгенерированный пример на умножение среднего уровня сложности
-        """
-        a_mul_2, b_mul_2 = self.search_coofs_for_stage_1_2(mul_2)
-        return round(a_mul_2 * b_mul_2, 2)
-
     def check_answer_multiply_stage_2(self, task, user_answer):
         """
         Проверит ответ пользователя на пример на умножение среднего уровня сложности
         """
-        if float(user_answer) == float(self.answer_multiply_stage_2(task)):
+        if float(user_answer) == float(self.answer_for_all_stages(task)):
             return ['Верно', True, 'mul_2']
         else:
-            return [f'Неверно. Правильный ответ {self.answer_multiply_stage_2(task)}', False]
+            return [f'Неверно. Правильный ответ {self.answer_for_all_stages(task)}', False]
 
     def generate_multiply_stage_3(self):
         """
@@ -510,21 +506,14 @@ class MyMath:
         d_mul_3 = randint(1, 10)
         return f'{a_mul_3} * {b_mul_3} * {c_mul_3} * {d_mul_3} = ?'
 
-    def answer_multiply_stage_3(self, mul_3):
-        """
-        Вернет ответ на последний сгенерированный пример на умножение высокого уровня сложности
-        """
-        a_mul_3, b_mul_3, c_mul_3, d_mul_3 = self.search_coofs_for_stage_3(mul_3)
-        return round(a_mul_3 * b_mul_3 * c_mul_3 * d_mul_3, 2)
-
     def check_answer_multiply_stage_3(self, task, user_answer):
         """
         Проверит ответ пользователя на пример на умножение высокого уровня сложности
         """
-        if float(user_answer) == float(self.answer_multiply_stage_3(task)):
+        if float(user_answer) == float(self.answer_for_all_stages(task)):
             return ['Верно', True, 'mul_3']
         else:
-            return [f'Неверно. Правильный ответ {self.answer_multiply_stage_3(task)}', False]
+            return [f'Неверно. Правильный ответ {self.answer_for_all_stages(task)}', False]
 
     def create_easy_test(self):
         self.creater = MyMath()
@@ -538,14 +527,15 @@ class MyMath:
         return self.task_list
 
     def answer_easy_test(self, task_list):
-        self.ans1 = self.answer_square_x(task_list[0])
-        self.ans2 = self.answer_line_x(task_list[1])
-        self.ans3 = self.answer_sum_stage_1(task_list[2])
-        self.ans4 = self.answer_min_stage_1(task_list[3])
-        self.ans5 = self.answer_multiply_stage_1(task_list[4])
-        self.ans6 = self.answer_crop_stage_1(task_list[5])
-        self.answers = [self.ans1, self.ans2, self.ans3, self.ans4, self.ans5, self.ans6]
-        return self.answers
+        answers = []
+        ans1 = self.answer_square_x(task_list[0])
+        answers.append(ans1)
+        ans2 = self.answer_line_x(task_list[1])
+        answers.append(ans2)
+        for task in task_list[2:]:
+            ans = self.answer_for_all_stages(task)
+            answers.append(ans)
+        return answers
 
     def create_hard_test(self):
         self.creater = MyMath()
@@ -564,19 +554,15 @@ class MyMath:
         return self.task_list_1
 
     def answer_hard_test(self, task_list):
-        self.ans1_1 = self.answer_square_x(task_list[0])
-        self.ans2_1 = self.answer_line_x(task_list[1])
-        self.ans3_1 = self.answer_sum_stage_2(task_list[2])
-        self.ans4_1 = self.answer_sum_stage_3(task_list[3])
-        self.ans5_1 = self.answer_min_stage_2(task_list[4])
-        self.ans6_1 = self.answer_min_stage_3(task_list[5])
-        self.ans7_1 = self.answer_multiply_stage_2(task_list[6])
-        self.ans8_1 = self.answer_multiply_stage_3(task_list[7])
-        self.ans9_1 = self.answer_crop_stage_2(task_list[8])
-        self.ans10_1 = self.answer_crop_stage_3(task_list[9])
-        self.answers_1 = [self.ans1_1, self.ans2_1, self.ans3_1, self.ans4_1, self.ans5_1,
-                          self.ans6_1, self.ans7_1, self.ans8_1, self.ans9_1, self.ans10_1]
-        return self.answers_1
+        answers_1 = []
+        ans1_1 = self.answer_square_x(task_list[0])
+        answers_1.append(ans1_1)
+        ans2_1 = self.answer_line_x(task_list[1])
+        answers_1.append(ans2_1)
+        for task in task_list[2:]:
+            ans_1 = self.answer_for_all_stages(task)
+            answers_1.append(ans_1)
+        return answers_1
 
     def edit_rating_tasks(self, login, true_task):
         data_tasks = {'square_x': 15, 'line_x': 10, 's_1': 3, 's_2': 5, 's_3': 10,
