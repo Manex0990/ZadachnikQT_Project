@@ -217,22 +217,30 @@ class MyMath:
         else:
             return [f'Неверно. Правильный ответ {self.answer_line_x(task)}.', False]
 
+    def search_coofs_for_stage_1_2(self, task):
+        task = task.split()
+        self.coofs = [float(task[0]), float(task[2])]
+        return self.coofs
+
+    def search_coofs_for_stage_3(self, task):
+        task = task.split()
+        self.coofs = [int(task[0]), float(task[2]), float(task[4]), int(task[6])]
+        return self.coofs
+
     def generate_sum_stage_1(self):
         """
         Вернет пример на сложение простого уровня сложности в строковом формате
         """
-        self.a_s_1 = randint(1, 101)
-        self.b_s_1 = randint(1, 101)
-        return f'{self.a_s_1} + {self.b_s_1} = ?'
+        a_s_1 = randint(1, 101)
+        b_s_1 = randint(1, 101)
+        return f'{a_s_1} + {b_s_1} = ?'
 
     def answer_sum_stage_1(self, sum_1):
         """
         Вернет решение последнего сгенерированного примера на сложение простого уровня сложности
         """
-        sum_1 = sum_1.split()
-        self.a_s_1 = int(sum_1[0])
-        self.b_s_1 = int(sum_1[2])
-        return self.a_s_1 + self.b_s_1
+        a_s_1, b_s_1 = self.search_coofs_for_stage_1_2(sum_1)
+        return a_s_1 + b_s_1
 
     def check_answer_sum_stage_1(self, task, user_answer):
         """
@@ -247,18 +255,16 @@ class MyMath:
         """
         Вернет пример на сложение среднего уровня сложности в строковом формате
         """
-        self.a_s_2 = round(uniform(1, 20), 2)
-        self.b_s_2 = round(uniform(1, 20), 2)
-        return f'{self.a_s_2} + {self.b_s_2} = ?'
+        a_s_2 = round(uniform(1, 20), 2)
+        b_s_2 = round(uniform(1, 20), 2)
+        return f'{a_s_2} + {b_s_2} = ?'
 
     def answer_sum_stage_2(self, sum_2):
         """
         Вернет ответ на последний сгенерированный пример на сложение среднего уровня сложности
         """
-        sum_2 = sum_2.split()
-        self.a_s_2 = float(sum_2[0])
-        self.b_s_2 = float(sum_2[2])
-        return self.a_s_2 + self.b_s_2
+        a_s_2, b_s_2 = self.search_coofs_for_stage_1_2(sum_2)
+        return a_s_2 + b_s_2
 
     def check_answer_sum_stage_2(self, task, user_answer):
         """
@@ -273,22 +279,18 @@ class MyMath:
         """
         Вернет пример на сложение высокого уровня сложности в строковом формате
         """
-        self.a_s_3 = randint(1, 30)
-        self.b_s_3 = round(uniform(1, 30), 2)
-        self.c_s_3 = round(uniform(1, 30), 2)
-        self.d_s_3 = randint(1, 30)
-        return f'{self.a_s_3} + {self.b_s_3} + {self.c_s_3} + {self.d_s_3} = ?'
+        a_s_3 = randint(1, 30)
+        b_s_3 = round(uniform(1, 30), 2)
+        c_s_3 = round(uniform(1, 30), 2)
+        d_s_3 = randint(1, 30)
+        return f'{a_s_3} + {b_s_3} + {c_s_3} + {d_s_3} = ?'
 
     def answer_sum_stage_3(self, sum_3):
         """
         Вернет ответ на последний сгенерированный пример на сложение высокого уровня сложности
         """
-        sum_3 = sum_3.split()
-        self.a_s_3 = int(sum_3[0])
-        self.b_s_3 = float(sum_3[2])
-        self.c_s_3 = float(sum_3[4])
-        self.d_s_3 = int(sum_3[6])
-        return round(self.a_s_3 + self.b_s_3 + self.c_s_3 + self.d_s_3, 2)
+        a_s_3, b_s_3, c_s_3, d_s_3 = self.search_coofs_for_stage_3(sum_3)
+        return round(a_s_3 + b_s_3 + c_s_3 + d_s_3, 2)
 
     def check_answer_sum_stage_3(self, task, user_answer):
         """
@@ -303,18 +305,16 @@ class MyMath:
         """
         Вернет пример на вычитание простого уровня сложности в строковом формате
         """
-        self.a_m_1 = randint(1, 101)
-        self.b_m_1 = randint(1, 101)
-        return f'{self.a_m_1} - {self.b_m_1} = ?'
+        a_m_1 = randint(1, 101)
+        b_m_1 = randint(1, 101)
+        return f'{a_m_1} - {b_m_1} = ?'
 
     def answer_min_stage_1(self, min_1):
         """
         Вернет решение последнего сгенерированного примера на вычитание простого уровня сложности
         """
-        min_1 = min_1.split()
-        self.a_m_1 = int(min_1[0])
-        self.b_m_1 = int(min_1[2])
-        return self.a_m_1 - self.b_m_1
+        a_m_1, b_m_1 = self.search_coofs_for_stage_1_2(min_1)
+        return a_m_1 - b_m_1
 
     def check_answer_min_stage_1(self, task, user_answer):
         """
@@ -329,18 +329,16 @@ class MyMath:
         """
         Вернет пример на вычитание среднего уровня сложности в строковом формате
         """
-        self.a_m_2 = round(uniform(1, 20), 2)
-        self.b_m_2 = round(uniform(1, 20), 2)
-        return f'{self.a_m_2} - {self.b_m_2} = ?'
+        a_m_2 = round(uniform(1, 20), 2)
+        b_m_2 = round(uniform(1, 20), 2)
+        return f'{a_m_2} - {b_m_2} = ?'
 
     def answer_min_stage_2(self, min_2):
         """
         Вернет ответ на последний сгенерированный пример на вычитание среднего уровня сложности
         """
-        min_2 = min_2.split()
-        self.a_m_2 = float(min_2[0])
-        self.b_m_2 = float(min_2[2])
-        return round(self.a_m_2 - self.b_m_2, 2)
+        a_m_2, b_m_2 = self.search_coofs_for_stage_1_2(min_2)
+        return round(a_m_2 - b_m_2, 2)
 
     def check_answer_min_stage_2(self, task, user_answer):
         """
@@ -355,22 +353,18 @@ class MyMath:
         """
         Вернет пример на вычитание высокого уровня сложности в строковом формате
         """
-        self.a_m_3 = randint(1, 30)
-        self.b_m_3 = round(uniform(1, 30), 2)
-        self.c_m_3 = round(uniform(1, 30), 2)
-        self.d_m_3 = randint(1, 30)
-        return f'{self.a_m_3} - {self.b_m_3} - {self.c_m_3} - {self.d_m_3} = ?'
+        a_m_3 = randint(1, 30)
+        b_m_3 = round(uniform(1, 30), 2)
+        c_m_3 = round(uniform(1, 30), 2)
+        d_m_3 = randint(1, 30)
+        return f'{a_m_3} - {b_m_3} - {c_m_3} - {d_m_3} = ?'
 
     def answer_min_stage_3(self, min_3):
         """
         Вернет ответ на последний сгенерированный пример на вычитание высокого уровня сложности
         """
-        min_3 = min_3.split()
-        self.a_m_3 = int(min_3[0])
-        self.b_m_3 = float(min_3[2])
-        self.c_m_3 = float(min_3[4])
-        self.d_m_3 = int(min_3[6])
-        return round(self.a_m_3 - self.b_m_3 - self.c_m_3 - self.d_m_3, 2)
+        a_m_3, b_m_3, c_m_3, d_m_3 = self.search_coofs_for_stage_3(min_3)
+        return round(a_m_3 - b_m_3 - c_m_3 - d_m_3, 2)
 
     def check_answer_min_stage_3(self, task, user_answer):
         """
@@ -385,21 +379,19 @@ class MyMath:
         """
         Вернет пример на деление в строковом формате
         """
-        self.a_cr_1 = randint(1, 51)
-        self.b_cr_1 = randint(1, 51)
-        return f'{self.a_cr_1} : {self.b_cr_1} = ?'
+        a_cr_1 = randint(1, 51)
+        b_cr_1 = randint(1, 51)
+        return f'{a_cr_1} : {b_cr_1} = ?'
 
     def answer_crop_stage_1(self, crop_1):
         """
         Вернет решение последнего сгенерированного примера на деление
         """
-        crop_1 = crop_1.split()
-        self.a_cr_1 = int(crop_1[0])
-        self.b_cr_1 = int(crop_1[2])
-        if self.a_cr_1 / self.b_cr_1 == self.a_cr_1 // self.b_cr_1:
-            return self.a_cr_1 // self.b_cr_1
+        a_cr_1, b_cr_1 = self.search_coofs_for_stage_1_2(crop_1)
+        if a_cr_1 / b_cr_1 == a_cr_1 // b_cr_1:
+            return int(a_cr_1 / b_cr_1)
         else:
-            return round(self.a_cr_1 / self.b_cr_1, 2)
+            return round(a_cr_1 / b_cr_1, 2)
 
     def check_answer_crop_stage_1(self, task, user_answer):
         """
@@ -414,18 +406,16 @@ class MyMath:
         """
         Вернет пример на деление среднего уровня сложности в строковом формате
         """
-        self.a_cr_2 = round(uniform(1, 20), 2)
-        self.b_cr_2 = round(uniform(1, 20), 2)
-        return f'{self.a_cr_2} : {self.b_cr_2} = ?'
+        a_cr_2 = round(uniform(1, 20), 2)
+        b_cr_2 = round(uniform(1, 20), 2)
+        return f'{a_cr_2} : {b_cr_2} = ?'
 
     def answer_crop_stage_2(self, crop_2):
         """
         Вернет ответ на последний сгенерированный пример на деление среднего уровня сложности
         """
-        crop_2 = crop_2.split()
-        self.a_cr_2 = float(crop_2[0])
-        self.b_cr_2 = float(crop_2[2])
-        return round(self.a_cr_2 / self.b_cr_2, 2)
+        a_cr_2, b_cr_2 = self.search_coofs_for_stage_1_2(crop_2)
+        return round(a_cr_2 / b_cr_2, 2)
 
     def check_answer_crop_stage_2(self, task, user_answer):
         """
@@ -440,24 +430,18 @@ class MyMath:
         """
         Вернет пример на деление высокого уровня сложности в строковом формате
         """
-        self.a_cr_3 = randint(1, 30)
-        self.b_cr_3 = round(uniform(1, 30), 2)
-        self.c_cr_3 = round(uniform(1, 30), 2)
-        self.d_cr_3 = randint(1, 30)
-        return f'{self.a_cr_3} : {self.b_cr_3} : {self.c_cr_3} : {self.d_cr_3} = ?'
+        a_cr_3 = randint(50, 100)
+        b_cr_3 = round(uniform(30, 50), 2)
+        c_cr_3 = round(uniform(20, 30), 2)
+        d_cr_3 = randint(1, 20)
+        return f'{a_cr_3} : {b_cr_3} : {c_cr_3} : {d_cr_3} = ?'
 
     def answer_crop_stage_3(self, crop_3):
         """
         Вернет ответ на последний сгенерированный пример на деление высокого уровня сложности
         """
-        crop_3 = crop_3.split()
-        self.a_cr_3 = int(crop_3[0])
-        self.b_cr_3 = float(crop_3[2])
-        self.c_cr_3 = float(crop_3[4])
-        self.d_cr_3 = int(crop_3[6])
-        temp1 = self.a_cr_3 / self.b_cr_3
-        temp2 = self.c_cr_3 / self.d_cr_3
-        return round(temp1 / temp2, 2)
+        a_cr_3, b_cr_3, c_cr_3, d_cr_3 = self.search_coofs_for_stage_3(crop_3)
+        return round(a_cr_3 / b_cr_3 / c_cr_3 / d_cr_3, 2)
 
     def check_answer_crop_stage_3(self, task, user_answer):
         """
@@ -472,18 +456,16 @@ class MyMath:
         """
         Вернет пример на умножение в строковом формате
         """
-        self.a_mul_1 = randint(1, 21)
-        self.b_mul_1 = randint(1, 21)
-        return f'{self.a_mul_1} * {self.b_mul_1} = ?'
+        a_mul_1 = randint(1, 21)
+        b_mul_1 = randint(1, 21)
+        return f'{a_mul_1} * {b_mul_1} = ?'
 
     def answer_multiply_stage_1(self, mul_1):
         """
         Вернет решение последнего сгенерированного примера на умножение
         """
-        mul_1 = mul_1.split()
-        self.a_mul_1 = int(mul_1[0])
-        self.b_mul_1 = int(mul_1[2])
-        return self.a_mul_1 * self.b_mul_1
+        a_mul_1, b_mul_1 = self.search_coofs_for_stage_1_2(mul_1)
+        return a_mul_1 * b_mul_1
 
     def check_answer_multiply_stage_1(self, task, user_answer):
         """
@@ -498,18 +480,16 @@ class MyMath:
         """
         Вернет пример на умножение среднего уровня сложности в строковом формате
         """
-        self.a_mul_2 = round(uniform(1, 10), 2)
-        self.b_mul_2 = round(uniform(1, 10), 2)
-        return f'{self.a_mul_2} * {self.b_mul_2} = ?'
+        a_mul_2 = round(uniform(1, 10), 2)
+        b_mul_2 = round(uniform(1, 10), 2)
+        return f'{a_mul_2} * {b_mul_2} = ?'
 
     def answer_multiply_stage_2(self, mul_2):
         """
         Вернет ответ на последний сгенерированный пример на умножение среднего уровня сложности
         """
-        mul_2 = mul_2.split()
-        self.a_mul_2 = float(mul_2[0])
-        self.b_mul_2 = float(mul_2[2])
-        return round(self.a_mul_2 * self.b_mul_2, 2)
+        a_mul_2, b_mul_2 = self.search_coofs_for_stage_1_2(mul_2)
+        return round(a_mul_2 * b_mul_2, 2)
 
     def check_answer_multiply_stage_2(self, task, user_answer):
         """
@@ -524,22 +504,18 @@ class MyMath:
         """
         Вернет пример на умножение высокого уровня сложности в строковом формате
         """
-        self.a_mul_3 = randint(1, 10)
-        self.b_mul_3 = round(uniform(1, 10), 2)
-        self.c_mul_3 = round(uniform(1, 10), 2)
-        self.d_mul_3 = randint(1, 10)
-        return f'{self.a_mul_3} * {self.b_mul_3} * {self.c_mul_3} * {self.d_mul_3} = ?'
+        a_mul_3 = randint(1, 10)
+        b_mul_3 = round(uniform(1, 10), 2)
+        c_mul_3 = round(uniform(1, 10), 2)
+        d_mul_3 = randint(1, 10)
+        return f'{a_mul_3} * {b_mul_3} * {c_mul_3} * {d_mul_3} = ?'
 
     def answer_multiply_stage_3(self, mul_3):
         """
         Вернет ответ на последний сгенерированный пример на умножение высокого уровня сложности
         """
-        mul_3 = mul_3.split()
-        self.a_mul_3 = int(mul_3[0])
-        self.b_mul_3 = float(mul_3[2])
-        self.c_mul_3 = float(mul_3[4])
-        self.d_mul_3 = int(mul_3[6])
-        return round(self.a_mul_3 * self.b_mul_3 * self.c_mul_3 * self.d_mul_3, 2)
+        a_mul_3, b_mul_3, c_mul_3, d_mul_3 = self.search_coofs_for_stage_3(mul_3)
+        return round(a_mul_3 * b_mul_3 * c_mul_3 * d_mul_3, 2)
 
     def check_answer_multiply_stage_3(self, task, user_answer):
         """
@@ -607,17 +583,14 @@ class MyMath:
                       'm_1': 3, 'm_2': 5, 'm_3': 10, 'cr_1': 3, 'cr_2': 5,
                       'cr_3': 10, 'mul_1': 3, 'mul_2': 5, 'mul_3': 10}
         point = data_tasks[true_task]
-        con = sqlite3.connect('project.db')
+        con = sqlite3.connect('project_db.sqlite')
         cursor = con.cursor()
         points = cursor.execute(f'''SELECT points FROM stats WHERE login="{login}"''').fetchone()
         if not points:
             points = point
         else:
             points = point + points[0]
-        cursor.execute(f'''UPDATE stats SET points={points}  WHERE login="{login}"''')
+        cursor.execute(f'''UPDATE stats SET points={points} WHERE login="{login}"''')
         con.commit()
         con.close()
         return point
-
-    def edit_rating_tests(self, login, true_test):
-        pass
