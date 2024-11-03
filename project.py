@@ -54,7 +54,7 @@ class MyMath:
                     return f'-x\u00B2 + {b_sq}x - {-c_sq} = 0'
                 elif c_sq < 0 and a_sq == 1:
                     return f'x\u00B2 + {b_sq}x - {-c_sq} = 0'
-                elif c_sq > 0 and a_sq != 1 and b_sq != -1:
+                elif c_sq > 0 and a_sq != 1 and a_sq != -1:
                     return f'{a_sq}x\u00B2 + {b_sq}x + {c_sq} = 0'
                 elif c_sq > 0 and a_sq == -1:
                     return f'-x\u00B2 + {b_sq}x + {c_sq} = 0'
