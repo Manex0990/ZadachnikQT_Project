@@ -15,8 +15,11 @@ class Task(QMainWindow):
         self.exit_btn.clicked.connect(self.exit)
 
     def check_task(self):
-        user_answer = self.answerLine.text().split()
-        user_answer = list(map(float, user_answer))
+        user_answer = self.answerLine.text()
+        if user_answer == 'Корней нет':
+            pass
+        else:
+            user_answer = list(map(float, user_answer.split()))
         verdict = MyMath.check_answer_square_x(self, self.task, user_answer)
         if verdict[1]:
             self.verdictLine.setText(verdict[0])
@@ -56,14 +59,3 @@ app = QApplication(sys.argv)
 w = Menu()
 w.show()
 app.exec()
-
-
-# square_x_btn
-# line_x_btn
-# sum_btn
-# min_btn
-# mul_btn
-# crop_btn
-# easy_test_btn
-# hard_test_btn
-# добавить картинки
