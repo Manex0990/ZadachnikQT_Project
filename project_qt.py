@@ -16,16 +16,24 @@ class Task(QMainWindow):
 
     def check_task(self):
         user_answer = self.answerLine.text()
-        if user_answer == 'Корней нет':
+        try:
+            user_answer = float(user_answer)
+        except ValueError:
             pass
+        if user_answer != 'Корней нет' and not isinstance(user_answer, float) and \
+                not isinstance(user_answer.split(), list):
+            self.statusBar().showMessage('Неверный формат ответа.')
         else:
-            user_answer = list(map(float, user_answer.split()))
-        verdict = MyMath.check_answer_square_x(self, self.task, user_answer)
-        if verdict[1]:
-            self.verdictLine.setText(verdict[0])
-            corr = verdict[2]
-        else:
-            self.verdictLine.setText(verdict[0])
+            if user_answer == 'Корней нет':
+                pass
+            else:
+                user_answer = list(map(float, user_answer.split()))
+            verdict = MyMath.check_answer_square_x(self, self.task, user_answer)
+            if verdict[1]:
+                self.verdictLine.setText(verdict[0])
+                corr = verdict[2]
+            else:
+                self.verdictLine.setText(verdict[0])
 
     def exit(self):
         if self.flag1 is None:
