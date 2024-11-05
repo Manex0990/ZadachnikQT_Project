@@ -38,7 +38,7 @@ class MyMath:
             elif c_sq < 0 and a_sq == -1:
                 return f'-x\u00B2 - x - {-c_sq} = 0'
             elif c_sq < 0 and a_sq == 1:
-                return f'x\u00B2 - x - {-self.c_sq} = 0'
+                return f'x\u00B2 - x - {-c_sq} = 0'
             elif c_sq > 0 and a_sq != 1 and a_sq != -1:
                 return f'{a_sq}x\u00B2 - x + {c_sq} = 0'
             elif c_sq > 0 and a_sq == -1:
@@ -122,7 +122,7 @@ class MyMath:
                 answer = sorted([round(x1, 2), int(x2)])
             elif int(x1) == x1 and int(x2) == x2:
                 answer = sorted([int(x1), int(x2)])
-            elif isinstance(x1, float) and isinstance(x2, float):
+            else:
                 answer = sorted([round(x1, 2), round(x2, 2)])
             return answer
 
@@ -137,23 +137,27 @@ class MyMath:
         2) один корень - целое чило или дробное(округлите до сотых) число
         3) строка 'Корней нет'
         """
+        checker = MyMath()
+
         if user_answer == 'Корней нет':
-            if str(self.answer_square_x(task)) == user_answer:
-                return 'Верно'
+            if str(checker.answer_square_x(task)) == user_answer:
+                return ['Верно. Продолжайте в том же духе.', True, 'square_x']
             else:
-                return f'Неверно. Правильный ответ {self.answer_square_x(task)}.'
+                return [f'Неверно. Правильный ответ {checker.answer_square_x(task)}.'
+                        f'Проверьте расчеты и попробуйте еще раз', False]
 
         elif isinstance(user_answer, int) or isinstance(user_answer, float):
-            if float(user_answer) == float(self.answer_square_x(task)):
-                return 'Верно'
+            if float(user_answer) == float(checker.answer_square_x(task)):
+                return ['Верно. Продолжайте в том же духе.', True, 'square_x']
             else:
-                return f'Неверно. Правильный ответ {self.answer_square_x(task)}.'
+                return [f'Неверно. Правильный ответ {checker.answer_square_x(task)}.'
+                        f'Проверьте расчеты и попробуйте еще раз.', False]
 
-        temp = [float(i) for i in user_answer.split(' ')]
-        if sorted(temp) == list(self.answer_square_x(task)):
-            return ['Верно', True, 'square_x']
+        if sorted(user_answer) == list(checker.answer_square_x(task)):
+            return ['Верно. Продолжайте в том же духе.', True, 'square_x']
         else:
-            return [f'Неверно. Правильный ответ {self.answer_square_x(task)}.', False]
+            return [f'Неверно. Правильный ответ {' '.join(checker.answer_square_x(task))}.'
+                    f'Проверьте расчеты и попробуйте еще раз.', False]
 
     def generate_line_x(self):
         """
