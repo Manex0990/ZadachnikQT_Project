@@ -5,7 +5,7 @@ from PyQt6.QtWidgets import QApplication, QMainWindow, QButtonGroup
 
 
 class Task(QMainWindow):
-    def __init__(self):
+    def __init__(self, btn):
         super().__init__()
         self.flag1 = None
         uic.loadUi('task_doing.ui', self)
@@ -56,9 +56,9 @@ class Menu(QMainWindow):
         self.training_tasks_btn_group.addButton(self.crop_btn)
         self.training_tasks_btn_group.buttonClicked.connect(self.open_task_window)
 
-    def open_task_window(self):
+    def open_task_window(self, button):
         if self.flag is None:
-            self.flag = Task()
+            self.flag = Task(button.text())
         self.flag.show()
         self.hide()
 
