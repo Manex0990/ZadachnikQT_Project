@@ -6,6 +6,7 @@ from PyQt6.QtWidgets import QApplication, QMainWindow, QButtonGroup
 
 class Task(QMainWindow):
     def __init__(self, btn):
+        # добавить функции на остальные кнопки.
         super().__init__()
         self.flag1 = None
         uic.loadUi('task_doing.ui', self)
