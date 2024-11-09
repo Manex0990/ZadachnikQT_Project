@@ -137,26 +137,24 @@ class MyMath:
         2) один корень - целое чило или дробное(округлите до сотых) число
         3) строка 'Корней нет'
         """
-        checker = MyMath()
-
         if user_answer == 'Корней нет':
-            if str(checker.answer_square_x(task)) == user_answer:
+            if str(self.answer_square_x(task)) == user_answer:
                 return ['Верно. Продолжайте в том же духе.', True, 'square_x']
             else:
-                return [f'Неверно. Правильный ответ {checker.answer_square_x(task)}.'
+                return [f'Неверно. Правильный ответ {self.answer_square_x(task)}.'
                         f'Проверьте расчеты и попробуйте еще раз', False]
 
         elif isinstance(user_answer, float):
-            if float(user_answer) == float(checker.answer_square_x(task)):
+            if float(user_answer) == float(self.answer_square_x(task)):
                 return ['Верно. Продолжайте в том же духе.', True, 'square_x']
             else:
-                return [f'Неверно. Правильный ответ {checker.answer_square_x(task)}.'
+                return [f'Неверно. Правильный ответ {self.answer_square_x(task)}.'
                         f'Проверьте расчеты и попробуйте еще раз.', False]
 
-        if sorted(user_answer) == list(checker.answer_square_x(task)):
+        if sorted(user_answer) == list(self.answer_square_x(task)):
             return ['Верно. Продолжайте в том же духе.', True, 'square_x']
         else:
-            return [f'Неверно. Правильный ответ {checker.answer_square_x(task)}.'
+            return [f'Неверно. Правильный ответ {self.answer_square_x(task)}.'
                     f'Проверьте расчеты и попробуйте еще раз.', False]
 
     def generate_line_x(self):
@@ -219,11 +217,10 @@ class MyMath:
         В качестве ответа может быть принято
         целое число или дробное(округлите до сотых) число
         """
-        checker = MyMath()
-        if float(user_answer) == float(checker.answer_line_x(task)):
+        if float(user_answer) == float(self.answer_line_x(task)):
             return ['Верно. Продолжайте в том же духе.', True, 'line_x']
         else:
-            return [f'Неверно. Проверьте расчеты и попробуйте позже еще раз. Правильный ответ {checker.answer_line_x(task)}.', False]
+            return [f'Неверно. Проверьте расчеты и попробуйте позже еще раз. Правильный ответ {self.answer_line_x(task)}.', False]
 
     def search_coofs_for_stage_1_2(self, task):
         """
@@ -284,9 +281,8 @@ class MyMath:
         """
         Находит решение на любой пример всех сложностей.
         """
-        answer = MyMath()
-        type = answer.iddentificate_task(task)[0]
-        stage = int(answer.iddentificate_task(task)[1])
+        type = self.iddentificate_task(task)[0]
+        stage = int(self.iddentificate_task(task)[1])
         if type == 'sum':
             if stage == 1:
                 a, b = self.search_coofs_for_stage_1_2(task)
@@ -332,9 +328,8 @@ class MyMath:
         """
         Проверить ответ пользователя на любой пример.
         """
-        checker = MyMath()
-        type = '_'.join(checker.iddentificate_task(task))
-        if user_answer == checker.answer_for_all_stages(task):
+        type = '_'.join(self.iddentificate_task(task))
+        if user_answer == self.answer_for_all_stages(task):
             return ['Верно. Продолжайте в том же духе.', True, type]
         else:
             return ['Неверно. Проверьте рассчеты и попробуйте позже.', False]
@@ -447,13 +442,12 @@ class MyMath:
         """
         Создает легкий тест.
         """
-        self.creater = MyMath()
-        self.task1 = self.creater.generate_square_x()
-        self.task2 = self.creater.generate_line_x()
-        self.task3 = self.creater.generate_sum_stage_1()
-        self.task4 = self.creater.generate_min_stage_1()
-        self.task5 = self.creater.generate_multiply_stage_1()
-        self.task6 = self.creater.generate_crop_stage_1()
+        self.task1 = self.generate_square_x()
+        self.task2 = self.generate_line_x()
+        self.task3 = self.generate_sum_stage_1()
+        self.task4 = self.generate_min_stage_1()
+        self.task5 = self.generate_multiply_stage_1()
+        self.task6 = self.generate_crop_stage_1()
         self.task_list = [self.task1, self.task2, self.task3, self.task4, self.task5, self.task6]
         return self.task_list
 
@@ -475,17 +469,16 @@ class MyMath:
         """
         Создает сложный тест.
         """
-        self.creater = MyMath()
-        self.task1_1 = self.creater.generate_square_x()
-        self.task2_1 = self.creater.generate_line_x()
-        self.task3_1 = self.creater.generate_sum_stage_2()
-        self.task4_1 = self.creater.generate_sum_stage_3()
-        self.task5_1 = self.creater.generate_min_stage_2()
-        self.task6_1 = self.creater.generate_min_stage_3()
-        self.task7_1 = self.creater.generate_multiply_stage_2()
-        self.task8_1 = self.creater.generate_multiply_stage_3()
-        self.task9_1 = self.creater.generate_crop_stage_2()
-        self.task10_1 = self.creater.generate_crop_stage_3()
+        self.task1_1 = self.generate_square_x()
+        self.task2_1 = self.generate_line_x()
+        self.task3_1 = self.generate_sum_stage_2()
+        self.task4_1 = self.generate_sum_stage_3()
+        self.task5_1 = self.generate_min_stage_2()
+        self.task6_1 = self.generate_min_stage_3()
+        self.task7_1 = self.generate_multiply_stage_2()
+        self.task8_1 = self.generate_multiply_stage_3()
+        self.task9_1 = self.generate_crop_stage_2()
+        self.task10_1 = self.generate_crop_stage_3()
         self.task_list_1 = [self.task1_1, self.task2_1, self.task3_1, self.task4_1, self.task5_1,
                             self.task6_1, self.task7_1, self.task8_1, self.task9_1, self.task10_1]
         return self.task_list_1
