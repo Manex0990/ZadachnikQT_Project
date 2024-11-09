@@ -33,61 +33,62 @@ class LevelChangeWindow(QMainWindow):
 class Task(QMainWindow):
     def __init__(self, btn, level=0):
         super().__init__()
+        self.ex = MyMath()
         self.flag1 = None
         self.flag2 = None
         self.btn = btn
         self.stage = level
         if self.btn == 'Квадратное уравнение':
             uic.loadUi('task_doing.ui', self)
-            self.task = MyMath.generate_square_x(self)
+            self.task = self.ex.generate_square_x()
             self.answer_btn.clicked.connect(self.check_task_square_x)
         elif self.btn == 'Линейное уравнение':
             uic.loadUi('task_doing_1.ui', self)
-            self.task = MyMath.generate_line_x(self)
+            self.task = self.ex.generate_line_x()
             self.answer_btn.clicked.connect(self.check_task_line_x)
         elif self.btn == 'Пример на сложение':
             uic.loadUi('task_doing_2.ui', self)
             self.label.setText('Задание Пример на сложение')
             self.label_2.setText('Задача: Решите пример на сложение.')
             if self.stage == 1:
-                self.task = MyMath.generate_sum_stage_1(self)
+                self.task = self.ex.generate_sum_stage_1()
             elif self.stage == 2:
-                self.task = MyMath.generate_sum_stage_2(self)
+                self.task = self.ex.generate_sum_stage_2()
             else:
-                self.task = MyMath.generate_sum_stage_3(self)
+                self.task = self.ex.generate_sum_stage_3()
             self.answer_btn.clicked.connect(self.check_task_all_stages)
         elif self.btn == 'Пример на вычитание':
             uic.loadUi('task_doing_2.ui', self)
             self.label.setText('Задание Пример на вычитание')
             self.label_2.setText('Задача: Решите пример на вычитание.')
             if self.stage == 1:
-                self.task = MyMath.generate_min_stage_1(self)
+                self.task = self.ex.generate_min_stage_1()
             elif self.stage == 2:
-                self.task = MyMath.generate_min_stage_2(self)
+                self.task = self.ex.generate_min_stage_2()
             else:
-                self.task = MyMath.generate_min_stage_3(self)
+                self.task = self.ex.generate_min_stage_3()
             self.answer_btn.clicked.connect(self.check_task_all_stages)
         elif self.btn == 'Пример на умножение':
             uic.loadUi('task_doing_2.ui', self)
             self.label.setText('Задание Пример на умножение')
             self.label_2.setText('Задача: Решите пример на умножение.')
             if self.stage == 1:
-                self.task = MyMath.generate_multiply_stage_1(self)
+                self.task = self.ex.generate_multiply_stage_1()
             elif self.stage == 2:
-                self.task = MyMath.generate_multiply_stage_2(self)
+                self.task = self.ex.generate_multiply_stage_2()
             else:
-                self.task = MyMath.generate_multiply_stage_3(self)
+                self.task = self.ex.generate_multiply_stage_3()
             self.answer_btn.clicked.connect(self.check_task_all_stages)
         elif self.btn == 'Пример на деление':
             uic.loadUi('task_doing_2.ui', self)
             self.label.setText('Задание Пример на деление')
             self.label_2.setText('Задача: Решите пример на деление.')
             if self.stage == 1:
-                self.task = MyMath.generate_crop_stage_1(self)
+                self.task = self.ex.generate_crop_stage_1()
             elif self.stage == 2:
-                self.task = MyMath.generate_crop_stage_2(self)
+                self.task = self.ex.generate_crop_stage_2()
             else:
-                self.task = MyMath.generate_crop_stage_3(self)
+                self.task = self.ex.generate_crop_stage_3(ex)
             self.answer_btn.clicked.connect(self.check_task_all_stages)
         self.taskLine.setText(self.task)
         self.exit_btn.clicked.connect(self.exit)
@@ -95,12 +96,12 @@ class Task(QMainWindow):
     def check_task_square_x(self):
         user_answer = self.answerLine.text()
         if user_answer == 'Корней нет':
-            verdict = MyMath.check_answer_square_x(self, self.task, user_answer)
+            verdict = self.ex.check_answer_square_x(self.task, user_answer)
             self.verdictLine.setText(verdict[0])
             if verdict[1]:
                 corr = verdict[2]
         elif user_answer.isalnum():
-            verdict = MyMath.check_answer_square_x(self, self.task, user_answer)
+            verdict = self.ex.check_answer_square_x(self.task, user_answer)
             self.verdictLine.setText(verdict[0])
             if verdict[1]:
                 corr = verdict[2]
@@ -108,7 +109,7 @@ class Task(QMainWindow):
             try:
                 user_answer = user_answer.split()
                 user_answer = sorted(list(map(float, user_answer)))
-                verdict = MyMath.check_answer_square_x(self, self.task, user_answer)
+                verdict = self.ex.check_answer_square_x(self.task, user_answer)
                 self.verdictLine.setText(verdict[0])
                 if verdict[1]:
                     corr = verdict[2]
@@ -121,7 +122,7 @@ class Task(QMainWindow):
         user_answer = self.answerLine.text()
         try:
             user_answer = float(user_answer)
-            verdict = MyMath.check_answer_line_x(self, self.task, user_answer)
+            verdict = self.ex.check_answer_line_x(self.task, user_answer)
             self.verdictLine.setText(verdict[0])
             if verdict[1]:
                 corr = verdict[2]
@@ -136,7 +137,7 @@ class Task(QMainWindow):
         user_answer = self.answerLine.text()
         try:
             user_answer = float(user_answer)
-            verdict = MyMath.check_answer_for_all_stages(self, self.task, user_answer)
+            verdict = self.ex.check_answer_for_all_stages(self.task, user_answer)
             self.verdictLine.setText(verdict[0])
             if verdict[1]:
                 corr = verdict[2]
