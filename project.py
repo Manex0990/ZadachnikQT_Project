@@ -3,15 +3,6 @@ import sqlite3
 
 
 class MyMath:
-    def __init__(self):
-        self.data_gen = {0: [self.generate_square_x(), self.generate_line_x(), self.generate_sum_stage_1(),
-                             self.generate_min_stage_1(), self.generate_multiply_stage_1(),
-                             self.generate_crop_stage_1()],
-                         1: [self.generate_square_x(), self.generate_line_x(), self.generate_sum_stage_2(),
-                             self.generate_sum_stage_3(), self.generate_min_stage_2(), self.generate_min_stage_3(),
-                             self.generate_multiply_stage_2(), self.generate_multiply_stage_3(),
-                             self.generate_crop_stage_2(), self.generate_crop_stage_3()]}
-
     def generate_square_x(self):
         """
         Вернет кв уравнение в строковом формате.
