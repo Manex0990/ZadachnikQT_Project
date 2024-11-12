@@ -3,6 +3,15 @@ import sqlite3
 
 
 class MyMath:
+    def __init__(self):
+        self.data_gen = {0: [self.generate_square_x(), self.generate_line_x(), self.generate_sum_stage_1(),
+                             self.generate_min_stage_1(), self.generate_multiply_stage_1(),
+                             self.generate_crop_stage_1()],
+                         1: [self.generate_square_x(), self.generate_line_x(), self.generate_sum_stage_2(),
+                             self.generate_sum_stage_3(), self.generate_min_stage_2(), self.generate_min_stage_3(),
+                             self.generate_multiply_stage_2(), self.generate_multiply_stage_3(),
+                             self.generate_crop_stage_2(), self.generate_crop_stage_3()]}
+
     def generate_square_x(self):
         """
         Вернет кв уравнение в строковом формате.
@@ -141,21 +150,20 @@ class MyMath:
             if str(self.answer_square_x(task)) == user_answer:
                 return ['Верно. Продолжайте в том же духе.', True, 'square_x']
             else:
-                return [f'Неверно. Правильный ответ {self.answer_square_x(task)}.'
-                        f'Проверьте расчеты и попробуйте еще раз', False]
+                return [f'Неверно. Проверьте расчеты и попробуйте позже.', False]
 
         elif isinstance(user_answer, float):
             if float(user_answer) == float(self.answer_square_x(task)):
                 return ['Верно. Продолжайте в том же духе.', True, 'square_x']
             else:
-                return [f'Неверно. Правильный ответ {self.answer_square_x(task)}.'
-                        f'Проверьте расчеты и попробуйте еще раз.', False]
+                return [f'Неверно. Проверьте расчеты и попробуйте позже.', False]
 
-        if sorted(user_answer) == list(self.answer_square_x(task)):
-            return ['Верно. Продолжайте в том же духе.', True, 'square_x']
         else:
-            return [f'Неверно. Правильный ответ {self.answer_square_x(task)}.'
-                    f'Проверьте расчеты и попробуйте еще раз.', False]
+            if sorted(user_answer) == list(self.answer_square_x(task)):
+                return ['Верно. Продолжайте в том же духе.', True, 'square_x']
+            else:
+                return [f'Неверно. Проверьте расчеты и попробуйте позже.', False]
+
 
     def generate_line_x(self):
         """
@@ -220,7 +228,7 @@ class MyMath:
         if float(user_answer) == float(self.answer_line_x(task)):
             return ['Верно. Продолжайте в том же духе.', True, 'line_x']
         else:
-            return [f'Неверно. Проверьте расчеты и попробуйте позже еще раз. Правильный ответ {self.answer_line_x(task)}.', False]
+            return [f'Неверно. Проверьте расчеты и попробуйте позже.', False]
 
     def search_coofs_for_stage_1_2(self, task):
         """
@@ -406,10 +414,10 @@ class MyMath:
         """
         Вернет пример на деление высокого уровня сложности в строковом формате
         """
-        a_cr_3 = randint(50, 100)
-        b_cr_3 = round(uniform(30, 50), 2)
-        c_cr_3 = round(uniform(20, 30), 2)
-        d_cr_3 = randint(1, 20)
+        a_cr_3 = randint(10, 40)
+        b_cr_3 = round(uniform(1, 8), 1)
+        c_cr_3 = round(uniform(1, 6), 1)
+        d_cr_3 = randint(1, 4)
         return f'{a_cr_3} : {b_cr_3} : {c_cr_3} : {d_cr_3} = ?'
 
     def generate_multiply_stage_1(self):
@@ -437,65 +445,6 @@ class MyMath:
         c_mul_3 = round(uniform(1, 10), 2)
         d_mul_3 = randint(1, 10)
         return f'{a_mul_3} * {b_mul_3} * {c_mul_3} * {d_mul_3} = ?'
-
-    def create_easy_test(self):
-        """
-        Создает легкий тест.
-        """
-        self.task1 = self.generate_square_x()
-        self.task2 = self.generate_line_x()
-        self.task3 = self.generate_sum_stage_1()
-        self.task4 = self.generate_min_stage_1()
-        self.task5 = self.generate_multiply_stage_1()
-        self.task6 = self.generate_crop_stage_1()
-        self.task_list = [self.task1, self.task2, self.task3, self.task4, self.task5, self.task6]
-        return self.task_list
-
-    def answer_easy_test(self, task_list):
-        """
-        Находит ответы на задания легкого теста.
-        """
-        answers = []
-        ans1 = self.answer_square_x(task_list[0])
-        answers.append(ans1)
-        ans2 = self.answer_line_x(task_list[1])
-        answers.append(ans2)
-        for task in task_list[2:]:
-            ans = self.answer_for_all_stages(task)
-            answers.append(ans)
-        return answers
-
-    def create_hard_test(self):
-        """
-        Создает сложный тест.
-        """
-        self.task1_1 = self.generate_square_x()
-        self.task2_1 = self.generate_line_x()
-        self.task3_1 = self.generate_sum_stage_2()
-        self.task4_1 = self.generate_sum_stage_3()
-        self.task5_1 = self.generate_min_stage_2()
-        self.task6_1 = self.generate_min_stage_3()
-        self.task7_1 = self.generate_multiply_stage_2()
-        self.task8_1 = self.generate_multiply_stage_3()
-        self.task9_1 = self.generate_crop_stage_2()
-        self.task10_1 = self.generate_crop_stage_3()
-        self.task_list_1 = [self.task1_1, self.task2_1, self.task3_1, self.task4_1, self.task5_1,
-                            self.task6_1, self.task7_1, self.task8_1, self.task9_1, self.task10_1]
-        return self.task_list_1
-
-    def answer_hard_test(self, task_list):
-        """
-        Находит ответы на задания сложного теста.
-        """
-        answers_1 = []
-        ans1_1 = self.answer_square_x(task_list[0])
-        answers_1.append(ans1_1)
-        ans2_1 = self.answer_line_x(task_list[1])
-        answers_1.append(ans2_1)
-        for task in task_list[2:]:
-            ans_1 = self.answer_for_all_stages(task)
-            answers_1.append(ans_1)
-        return answers_1
 
     def edit_rating_tasks(self, login, true_task):
         """
