@@ -2,6 +2,7 @@ from project import MyMath
 import sys
 from PyQt6 import uic
 from PyQt6.QtWidgets import QApplication, QMainWindow, QButtonGroup
+import sqlite3
 
 
 class LevelChangeWindow(QMainWindow):
@@ -135,6 +136,14 @@ class Task(QMainWindow):
             self.flagLine.setText('Принято')
             if verdict[1]:
                 corr = verdict[2]
+                #con = sqlite3.connect('rating_db.sqlite')
+                #cur = con.cursor()
+                #query = f'''SELECT point FROM points WHERE title = "{corr}"'''
+                #temp = cur.execute(query).fetchone()
+                #query = f'''UPDATE main SET rating = rating + temp'''
+                #cur.execute(query).fetchone()
+                #con.commit()
+                #con.close()
             else:
                 pass
         except ValueError:
