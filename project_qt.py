@@ -165,7 +165,7 @@ class Task(QMainWindow):
         self.hide()
 
 
-class Open_test(QMainWindow):
+class Opentest(QMainWindow):
     def __init__(self, btn):
         super().__init__()
         self.ex = MyMath()
@@ -279,7 +279,7 @@ class Menu(QMainWindow):
     def open_test_window(self, button):
         name = button.text()
         if self.flag is None:
-            self.flag = Open_test(name)
+            self.flag = Opentest(name)
         self.flag.show()
         self.hide()
 
