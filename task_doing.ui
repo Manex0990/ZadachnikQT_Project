@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>856</width>
-    <height>522</height>
+    <width>859</width>
+    <height>468</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -31,6 +31,9 @@
     <property name="text">
      <string>Задание Квадратное уравнение</string>
     </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
    </widget>
    <widget class="QLabel" name="label_2">
     <property name="geometry">
@@ -48,6 +51,9 @@
     </property>
     <property name="text">
      <string>Задача: Решите квадратное уравнение.</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
     </property>
    </widget>
    <widget class="QLabel" name="label_3">
@@ -67,6 +73,9 @@
     <property name="text">
      <string>Ответ напишите в строке 'Ответ' в соответствии с правилами формата ответа(читайте ниже).</string>
     </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
    </widget>
    <widget class="QLabel" name="label_4">
     <property name="geometry">
@@ -84,6 +93,9 @@
     </property>
     <property name="text">
      <string>Правила формата ответа:</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
     </property>
    </widget>
    <widget class="QLabel" name="label_5">
@@ -105,6 +117,9 @@
     <property name="text">
      <string>1) Строка &quot;Корней нет&quot;</string>
     </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
    </widget>
    <widget class="QLabel" name="label_6">
     <property name="geometry">
@@ -124,6 +139,9 @@
     </property>
     <property name="text">
      <string>2) Одно число - корень, если дробное - округлите до сотых.</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
     </property>
    </widget>
    <widget class="QLabel" name="label_7">
@@ -145,6 +163,9 @@
     <property name="text">
      <string>3) Два числа через пробел в порядке возрастания - корни, дробные числа округлите до сотых.</string>
     </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
    </widget>
    <widget class="QLabel" name="taskLine">
     <property name="geometry">
@@ -163,6 +184,9 @@
     <property name="text">
      <string/>
     </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
     <property name="textInteractionFlags">
      <set>Qt::NoTextInteraction</set>
     </property>
@@ -171,7 +195,7 @@
     <property name="geometry">
      <rect>
       <x>80</x>
-      <y>390</y>
+      <y>360</y>
       <width>211</width>
       <height>20</height>
      </rect>
@@ -181,7 +205,7 @@
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>390</y>
+      <y>360</y>
       <width>47</width>
       <height>13</height>
      </rect>
@@ -194,7 +218,7 @@
     <property name="geometry">
      <rect>
       <x>310</x>
-      <y>390</y>
+      <y>360</y>
       <width>441</width>
       <height>21</height>
      </rect>
@@ -207,7 +231,7 @@
     <property name="geometry">
      <rect>
       <x>760</x>
-      <y>390</y>
+      <y>360</y>
       <width>75</width>
       <height>23</height>
      </rect>
@@ -220,7 +244,7 @@
     <property name="geometry">
      <rect>
       <x>690</x>
-      <y>420</y>
+      <y>390</y>
       <width>141</width>
       <height>23</height>
      </rect>
@@ -233,7 +257,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>420</y>
+      <y>390</y>
       <width>271</width>
       <height>20</height>
      </rect>
@@ -248,7 +272,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>856</width>
+     <width>859</width>
      <height>26</height>
     </rect>
    </property>
