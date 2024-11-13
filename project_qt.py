@@ -226,20 +226,20 @@ class Test(QMainWindow):
         self.end_btn.clicked.connect(self.exit)
 
     def exit(self):
-        self.verdicts = []
-        correct = []
-        not_correct = []
-        for i in range(len(self.data)):
-            if i == 0:
-                self.verdicts.append(self.data[i].check_task_square_x())
-            else:
-                self.verdicts.append(self.data[i].check_task_all_stages_and_line_x())
-        for i in self.verdicts:
-            if 'Верно' in i[0]:
-                correct.append('1')
-            elif 'Неверно' in i[0]:
-                not_correct.append('0')
-        procent_cor = len(correct) // len(self.verdicts)
+        #self.verdicts = []
+        #correct = []
+        #not_correct = []
+        #for i in range(len(self.data)):
+            #if i == 0:
+                #self.verdicts.append(self.data[i].check_task_square_x())
+            #else:
+                #self.verdicts.append(self.data[i].check_task_all_stages_and_line_x())
+        #for i in self.verdicts:
+            #if 'Верно' in i[0]:
+                #correct.append('1')
+            #elif 'Неверно' in i[0]:
+                #not_correct.append('0')
+        #procent_cor = len(correct) // len(self.verdicts)
         if self.flag is None:
             self.flag = Menu()
         self.flag.show()
