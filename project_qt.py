@@ -32,13 +32,15 @@ class LevelChangeWindow(QMainWindow):
 
 
 class Task(QMainWindow):
-    def __init__(self, btn, level=0):
+    def __init__(self, btn, level=0, test=None):
         super().__init__()
         self.ex = MyMath()
         self.flag1 = None
         self.flag2 = None
+        self.flag3 = False
         self.btn = btn
         self.stage = level
+        self.test = test
         if self.btn == 'Квадратное уравнение':
             uic.loadUi('task_doing.ui', self)
             self.task = self.ex.generate_square_x()
@@ -95,14 +97,26 @@ class Task(QMainWindow):
             verdict = self.ex.check_answer_square_x(self.task, user_answer)
             self.verdictLine.setText(verdict[0])
             self.flagLine.setText('Принято')
-            if verdict[1]:
-                corr = verdict[2]
+            if verdict[1] and not self.flag3:
+                self.corr = verdict[2]
+                if self.test is None:
+                    cof = 1
+                    self.edit_rating(cof)
+                else:
+                    cof = 2
+                    self.edit_rating(cof)
         elif user_answer.isalnum():
             verdict = self.ex.check_answer_square_x(self.task, user_answer)
             self.verdictLine.setText(verdict[0])
             self.flagLine.setText('Принято')
-            if verdict[1]:
-                corr = verdict[2]
+            if verdict[1] and not self.flag3:
+                self.corr = verdict[2]
+                if self.test is None:
+                    cof = 1
+                    self.edit_rating(cof)
+                else:
+                    cof = 2
+                    self.edit_rating(cof)
         else:
             try:
                 user_answer = user_answer.split()
@@ -110,16 +124,22 @@ class Task(QMainWindow):
                 verdict = self.ex.check_answer_square_x(self.task, user_answer)
                 self.verdictLine.setText(verdict[0])
                 self.flagLine.setText('Принято')
-                if verdict[1]:
-                    corr = verdict[2]
+                if verdict[1] and not self.flag3:
+                    self.corr = verdict[2]
+                    if self.test is None:
+                        cof = 1
+                        self.edit_rating(cof)
+                    else:
+                        cof = 2
+                        self.edit_rating(cof)
             except ValueError:
                 self.statusBar().showMessage('Неверный формат ответа.')
-                verdict = 'Неверно'
+                verdict = ['Неверно', False]
                 self.verdictLine.setText('Неверно')
                 self.flagLine.setText('Принято')
             except TypeError:
                 self.statusBar().showMessage('Неверный формат ответа.')
-                verdict = 'Неверно'
+                verdict = ['Неверно', False]
                 self.verdictLine.setText('Неверно')
                 self.flagLine.setText('Принято')
         return verdict
@@ -134,29 +154,41 @@ class Task(QMainWindow):
                 verdict = self.ex.check_answer_for_all_stages(self.task, user_answer)
             self.verdictLine.setText(verdict[0])
             self.flagLine.setText('Принято')
-            if verdict[1]:
-                corr = verdict[2]
-                #con = sqlite3.connect('rating_db.sqlite')
-                #cur = con.cursor()
-                #query = f'''SELECT point FROM points WHERE title = "{corr}"'''
-                #temp = cur.execute(query).fetchone()
-                #query = f'''UPDATE main SET rating = rating + temp'''
-                #cur.execute(query).fetchone()
-                #con.commit()
-                #con.close()
+            if verdict[1] and not self.flag3:
+                self.corr = verdict[2]
+                if self.test is None:
+                    cof = 1
+                    self.edit_rating(cof)
+                else:
+                    cof = 2
+                    self.edit_rating(cof)
             else:
                 pass
         except ValueError:
             self.statusBar().showMessage('Неверный формат ответа.')
-            verdict = 'Неверно'
+            verdict = ['Неверно', False]
             self.verdictLine.setText('Неверно')
             self.flagLine.setText('Принято')
         except TypeError:
             self.statusBar().showMessage('Неверный формат ответа.')
-            verdict = 'Неверно'
+            verdict = ['Неверно', False]
             self.verdictLine.setText('Неверно')
             self.flagLine.setText('Принято')
         return verdict
+
+    def edit_rating(self, cof):
+        self.flag3 = True
+        con = sqlite3.connect('rating_db.sqlite')
+        cur = con.cursor()
+        print(self.corr)
+        query = f'''SELECT point FROM points WHERE tilte = "{self.corr}"'''
+        temp = cur.execute(query).fetchone()
+        temp = temp[0]
+        temp = temp * cof
+        query = f'''UPDATE main SET rating = rating + "{temp}" WHERE id = "YOU"'''
+        cur.execute(query)
+        con.commit()
+        con.close()
 
     def exit(self):
         if self.flag1 is None:
@@ -203,20 +235,25 @@ class Test(QMainWindow):
         self.tasksTabs.removeTab(0)
         self.tasksTabs.removeTab(1)
         if self.level == 1:
-            self.data = [Task('Квадратное уравнение'), Task('Линейное уравнение'),
-                         Task('Пример на сложение', level=1), Task('Пример на вычитание', level=1),
-                         Task('Пример на умножение', level=1), Task('Пример на деление', level=1)]
+            self.data = [Task('Квадратное уравнение', test=self), Task('Линейное уравнение', test=self),
+                         Task('Пример на сложение', level=1, test=self),
+                         Task('Пример на вычитание', level=1, test=self),
+                         Task('Пример на умножение', level=1, test=self), Task('Пример на деление', level=1, test=self)]
             for i in range(len(self.data)):
                 self.tasksTabs.addTab(self.data[i], str(i + 1))
             for i in range(len(self.data)):
                 self.data[i].verdictLine.hide()
                 self.data[i].exit_btn.hide()
         elif self.level == 2:
-            self.data = [Task('Квадратное уравнение'), Task('Линейное уравнение'),
-                         Task('Пример на сложение', level=2), Task('Пример на сложение', level=3),
-                         Task('Пример на вычитание', level=2), Task('Пример на вычитание', level=3),
-                         Task('Пример на умножение', level=2), Task('Пример на умножение', level=3),
-                         Task('Пример на деление', level=2), Task('Пример на деление', level=3)]
+            self.data = [Task('Квадратное уравнение', test=self), Task('Линейное уравнение', test=self),
+                         Task('Пример на сложение', level=2, test=self),
+                         Task('Пример на сложение', level=3, test=self),
+                         Task('Пример на вычитание', level=2, test=self),
+                         Task('Пример на вычитание', level=3, test=self),
+                         Task('Пример на умножение', level=2, test=self),
+                         Task('Пример на умножение', level=3, test=self),
+                         Task('Пример на деление', level=2, test=self),
+                         Task('Пример на деление', level=3, test=self)]
             for i in range(len(self.data)):
                 self.tasksTabs.addTab(self.data[i], str(i + 1))
             for i in range(len(self.data)):
@@ -226,29 +263,24 @@ class Test(QMainWindow):
         self.end_btn.clicked.connect(self.exit)
 
     def exit(self):
-        #self.verdicts = []
-        #correct = []
-        #not_correct = []
-        #for i in range(len(self.data)):
-            #if i == 0:
-                #self.verdicts.append(self.data[i].check_task_square_x())
-            #else:
-                #self.verdicts.append(self.data[i].check_task_all_stages_and_line_x())
-        #for i in self.verdicts:
-            #if 'Верно' in i[0]:
-                #correct.append('1')
-            #elif 'Неверно' in i[0]:
-                #not_correct.append('0')
-        #procent_cor = len(correct) // len(self.verdicts)
+        self.verdicts = []
+        correct = []
+        not_correct = []
+        for i in range(len(self.data)):
+            if i == 0:
+                self.verdicts.append(self.data[i].check_task_square_x())
+            else:
+                self.verdicts.append(self.data[i].check_task_all_stages_and_line_x())
+        for i in self.verdicts:
+            if 'Верно' in i[0]:
+                correct.append('1')
+            elif 'Неверно' in i[0]:
+                not_correct.append('0')
+        procent_cor = len(correct) // len(self.verdicts)
         if self.flag is None:
             self.flag = Menu()
         self.flag.show()
         self.hide()
-
-        # вызвать метод класса task чтоб вытащить перемнную обновления рейтинга.
-
-        # перенести наружу таба кнопку выхода или передавать обьект test в качестве аргумкента в task
-        # тоже самое с кнопкой завершения теста
 
 
 class Menu(QMainWindow):
@@ -256,6 +288,7 @@ class Menu(QMainWindow):
         super().__init__()
         self.flag = None
         uic.loadUi('zadachnik_menu.ui', self)
+        self.update_rating()
         task_buttons = [self.square_x_btn, self.line_x_btn, self.sum_btn, self.min_btn, self.mul_btn, self.crop_btn]
         self.training_tasks_btn_group = QButtonGroup(self)
         for i in task_buttons:
@@ -266,6 +299,13 @@ class Menu(QMainWindow):
         for i in test_buttons:
             self.training_tests_btn_group.addButton(i)
         self.training_tests_btn_group.buttonClicked.connect(self.open_test_window)
+
+    def update_rating(self):
+        con = sqlite3.connect('rating_db.sqlite')
+        cur = con.cursor()
+        query = '''SELECT rating FROM main WHERE id = "YOU"'''
+        rating = cur.execute(query).fetchone()
+        self.rating.display(rating[0])
 
     def open_task_window(self, button):
         name = button.text()
