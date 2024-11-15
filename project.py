@@ -1,8 +1,3 @@
-from random import randint, uniform
-import sqlite3
-
-
-class MyMath:
     def generate_square_x(self):
         """
         Вернет кв уравнение в строковом формате.
@@ -155,7 +150,6 @@ class MyMath:
             else:
                 return [f'Неверно. Проверьте расчеты и попробуйте позже.', False]
 
-
     def generate_line_x(self):
         """
         Вернет линейное уравнение в строковом формате
@@ -246,33 +240,25 @@ class MyMath:
         stage = 0
 
         if len(task) == 5:
-            try:
-                task[0] = int(task[0])
-                task[2] = int(task[2])
+            if task[0].isdigit() and task[2].isdigit():
                 stage = 1
-                task[0] = int(task[0])
-                task[2] = int(task[2])
-            except ValueError:
-                pass
-            try:
-                task[0] = float(task[0])
-                task[2] = float(task[2])
+            elif (len(task[0]) == 3 or len(task[0]) == 4) or (len(task[2]) == 3 or len(task[2]) == 4):
                 stage = 2
-                task[0] = int(task[0])
-                task[2] = int(task[2])
-            except ValueError:
-                pass
         elif len(task) == 9:
             stage = 3
+            task[0] = float(task[0])
+            task[2] = float(task[2])
+            task[4] = float(task[4])
+            task[6] = float(task[6])
 
         if task[1] == '+':
-            type = 'sum'
+            type = 's'
         elif task[1] == '-':
-            type = 'min'
+            type = 'm'
         elif task[1] == '*':
             type = 'mul'
         elif task[1] == ':':
-            type = 'crop'
+            type = 'cr'
 
         return [type, str(stage)]
 
@@ -282,7 +268,7 @@ class MyMath:
         """
         type = self.iddentificate_task(task)[0]
         stage = int(self.iddentificate_task(task)[1])
-        if type == 'sum':
+        if type == 's':
             if stage == 1:
                 a, b = self.search_coofs_for_stage_1_2(task)
                 return a + b
@@ -292,7 +278,7 @@ class MyMath:
             elif stage == 3:
                 a, b, c, d = self.search_coofs_for_stage_3(task)
                 return round(a + b + c + d, 2)
-        elif type == 'min':
+        elif type == 'm':
             if stage == 1:
                 a, b = self.search_coofs_for_stage_1_2(task)
                 return a - b
@@ -302,7 +288,7 @@ class MyMath:
             elif stage == 3:
                 a, b, c, d = self.search_coofs_for_stage_3(task)
                 return round(a - b - c - d, 2)
-        elif type == 'crop':
+        elif type == 'cr':
             if stage == 1:
                 a, b = self.search_coofs_for_stage_1_2(task)
                 return a / b
