@@ -142,7 +142,6 @@ class Task(QMainWindow):
                 verdict = ['Неверно', False]
                 self.verdictLine.setText('Неверно')
                 self.flagLine.setText('Принято')
-        return verdict
 
     def check_task_all_stages_and_line_x(self):
         user_answer = self.answerLine.text()
@@ -172,7 +171,6 @@ class Task(QMainWindow):
             verdict = ['Неверно', False]
             self.verdictLine.setText('Неверно')
             self.flagLine.setText('Принято')
-        return verdict
 
     def edit_rating(self, cof):
         self.flag3 = True
