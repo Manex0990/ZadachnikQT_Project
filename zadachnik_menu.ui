@@ -263,7 +263,8 @@
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
- <resources/>
+ <resources>
+  <include location="../../Downloads/background.jpg"/>
+ </resources>
  <connections/>
 </ui>
-
