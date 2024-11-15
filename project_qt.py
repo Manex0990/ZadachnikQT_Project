@@ -37,7 +37,7 @@ class Task(QMainWindow):
         self.ex = MyMath()
         self.flag1 = None
         self.flag2 = None
-        self.flag3 = False
+        self.flag3 = 0
         self.btn = btn
         self.stage = level
         self.test = test
@@ -97,7 +97,7 @@ class Task(QMainWindow):
             verdict = self.ex.check_answer_square_x(self.task, user_answer)
             self.verdictLine.setText(verdict[0])
             self.flagLine.setText('Принято')
-            if verdict[1] and not self.flag3:
+            if verdict[1] and self.flag3 == 0:
                 self.corr = verdict[2]
                 if self.test is None:
                     cof = 1
@@ -109,7 +109,7 @@ class Task(QMainWindow):
             verdict = self.ex.check_answer_square_x(self.task, user_answer)
             self.verdictLine.setText(verdict[0])
             self.flagLine.setText('Принято')
-            if verdict[1] and not self.flag3:
+            if verdict[1] and self.flag3 == 0:
                 self.corr = verdict[2]
                 if self.test is None:
                     cof = 1
@@ -124,7 +124,7 @@ class Task(QMainWindow):
                 verdict = self.ex.check_answer_square_x(self.task, user_answer)
                 self.verdictLine.setText(verdict[0])
                 self.flagLine.setText('Принято')
-                if verdict[1] and not self.flag3:
+                if verdict[1] and self.flag3 == 0:
                     self.corr = verdict[2]
                     if self.test is None:
                         cof = 1
@@ -153,7 +153,7 @@ class Task(QMainWindow):
                 verdict = self.ex.check_answer_for_all_stages(self.task, user_answer)
             self.verdictLine.setText(verdict[0])
             self.flagLine.setText('Принято')
-            if verdict[1] and not self.flag3:
+            if verdict[1] and self.flag3 == 0:
                 self.corr = verdict[2]
                 if self.test is None:
                     cof = 1
@@ -161,6 +161,8 @@ class Task(QMainWindow):
                 else:
                     cof = 2
                     self.edit_rating(cof)
+            else:
+                pass
         except ValueError:
             self.statusBar().showMessage('Неверный формат ответа.')
             verdict = ['Неверно', False]
@@ -173,7 +175,7 @@ class Task(QMainWindow):
             self.flagLine.setText('Принято')
 
     def edit_rating(self, cof):
-        self.flag3 = True
+        self.flag3 = 1
         con = sqlite3.connect('rating_db.sqlite')
         cur = con.cursor()
         query = f'''SELECT point FROM points WHERE tilte = "{self.corr}"'''
