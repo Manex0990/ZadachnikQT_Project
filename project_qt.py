@@ -41,53 +41,43 @@ class Task(QMainWindow):
         self.btn = btn
         self.stage = level
         self.test = test
-        if self.btn == 'Квадратное уравнение':
-            uic.loadUi('task_doing.ui', self)
-            self.task = self.ex.generate_square_x()
-            self.answer_btn.clicked.connect(self.check_task_square_x)
-        else:
-            uic.loadUi('task_doing_1.ui', self)
-            if self.btn == 'Линейное уравнение':
-                self.label.setText('Задание Линейное уравнение')
-                self.label_2.setText('Задача: Решите линейное уравнение.')
-                self.task = self.ex.generate_line_x()
-            elif self.btn == 'Пример на сложение':
-                self.label.setText('Задание Пример на сложение')
-                self.label_2.setText('Задача: Решите пример на сложение.')
-                if self.stage == 1:
-                    self.task = self.ex.generate_sum_stage_1()
-                elif self.stage == 2:
-                    self.task = self.ex.generate_sum_stage_2()
-                else:
-                    self.task = self.ex.generate_sum_stage_3()
-            elif self.btn == 'Пример на вычитание':
-                self.label.setText('Задание Пример на вычитание')
-                self.label_2.setText('Задача: Решите пример на вычитание.')
-                if self.stage == 1:
-                    self.task = self.ex.generate_min_stage_1()
-                elif self.stage == 2:
-                    self.task = self.ex.generate_min_stage_2()
-                else:
-                    self.task = self.ex.generate_min_stage_3()
-            elif self.btn == 'Пример на умножение':
-                self.label.setText('Задание Пример на умножение')
-                self.label_2.setText('Задача: Решите пример на умножение.')
-                if self.stage == 1:
-                    self.task = self.ex.generate_multiply_stage_1()
-                elif self.stage == 2:
-                    self.task = self.ex.generate_multiply_stage_2()
-                else:
-                    self.task = self.ex.generate_multiply_stage_3()
-            elif self.btn == 'Пример на деление':
-                self.label.setText('Задание Пример на деление')
-                self.label_2.setText('Задача: Решите пример на деление.')
-                if self.stage == 1:
-                    self.task = self.ex.generate_crop_stage_1()
-                elif self.stage == 2:
-                    self.task = self.ex.generate_crop_stage_2()
-                else:
-                    self.task = self.ex.generate_crop_stage_3()
-            self.answer_btn.clicked.connect(self.check_task_all_stages_and_line_x)
+        self.methods_with_levels = {
+            'Квадратное уравнение': ('Задание Квадратное уравнение', 'Задача: Решите квадратное уравнение.',
+                                     'task_doing.ui', {0: self.ex.generate_square_x},
+                                     self.check_task_square_x),
+            'Линейное уравнение': ('Задание Линейное уравнение', 'Задача: Решите линейное уравнение.',
+                                   'task_doing_1.ui', {0: self.ex.generate_line_x},
+                                   self.check_task_all_stages_and_line_x),
+            'Пример на сложение': ('Задание Пример на сложение', 'Задача: Решите пример на сложение.',
+                                   'task_doing_1.ui', {1: self.ex.generate_sum_stage_1,
+                                                       2: self.ex.generate_sum_stage_2,
+                                                       3: self.ex.generate_sum_stage_3},
+                                   self.check_task_all_stages_and_line_x),
+            'Пример на вычитание': ('Задание Пример на вычитание', 'Задача: Решите пример на вычитание.',
+                                    'task_doing_1.ui', {1: self.ex.generate_min_stage_1,
+                                                        2: self.ex.generate_min_stage_2,
+                                                        3: self.ex.generate_min_stage_3},
+                                    self.check_task_all_stages_and_line_x),
+            'Пример на умножение': ('Задание Пример на умножение', 'Задача: Решите пример на умножение.',
+                                    'task_doing_1.ui', {1: self.ex.generate_multiply_stage_1,
+                                                        2: self.ex.generate_multiply_stage_2,
+                                                        3: self.ex.generate_multiply_stage_3},
+                                    self.check_task_all_stages_and_line_x),
+            'Пример на деление': ('Задание Пример на деление', 'Задача: Решите пример на деление.',
+                                  'task_doing_1.ui', {1: self.ex.generate_crop_stage_1,
+                                                      2: self.ex.generate_crop_stage_2,
+                                                      3: self.ex.generate_crop_stage_3},
+                                  self.check_task_all_stages_and_line_x)}
+        self.create_task_type(self.methods_with_levels[self.btn])
+
+    def create_task_type(self, generate_methods):
+        text1, text2, ui_file, method, check_method = generate_methods
+        method = method[self.stage]
+        uic.loadUi(ui_file, self)
+        self.label.setText(text1)
+        self.label_2.setText(text2)
+        self.task = method()
+        self.answer_btn.clicked.connect(check_method)
         self.taskLine.setText(self.task)
         self.exit_btn.clicked.connect(self.exit)
 
@@ -100,11 +90,9 @@ class Task(QMainWindow):
             if verdict[1] and self.flag3 == 0:
                 self.corr = verdict[2]
                 if self.test is None:
-                    cof = 1
-                    self.edit_rating(cof)
+                    self.edit_rating(1)
                 else:
-                    cof = 2
-                    self.edit_rating(cof)
+                    self.edit_rating(2)
         elif user_answer.isalnum():
             verdict = self.ex.check_answer_square_x(self.task, user_answer)
             self.verdictLine.setText(verdict[0])
@@ -112,11 +100,9 @@ class Task(QMainWindow):
             if verdict[1] and self.flag3 == 0:
                 self.corr = verdict[2]
                 if self.test is None:
-                    cof = 1
-                    self.edit_rating(cof)
+                    self.edit_rating(1)
                 else:
-                    cof = 2
-                    self.edit_rating(cof)
+                    self.edit_rating(2)
         else:
             try:
                 user_answer = user_answer.split()
@@ -127,19 +113,15 @@ class Task(QMainWindow):
                 if verdict[1] and self.flag3 == 0:
                     self.corr = verdict[2]
                     if self.test is None:
-                        cof = 1
-                        self.edit_rating(cof)
+                        self.edit_rating(1)
                     else:
-                        cof = 2
-                        self.edit_rating(cof)
+                        self.edit_rating(2)
             except ValueError:
                 self.statusBar().showMessage('Неверный формат ответа.')
-                verdict = ['Неверно', False]
                 self.verdictLine.setText('Неверно')
                 self.flagLine.setText('Принято')
             except TypeError:
                 self.statusBar().showMessage('Неверный формат ответа.')
-                verdict = ['Неверно', False]
                 self.verdictLine.setText('Неверно')
                 self.flagLine.setText('Принято')
 
@@ -156,21 +138,17 @@ class Task(QMainWindow):
             if verdict[1] and self.flag3 == 0:
                 self.corr = verdict[2]
                 if self.test is None:
-                    cof = 1
-                    self.edit_rating(cof)
+                    self.edit_rating(1)
                 else:
-                    cof = 2
-                    self.edit_rating(cof)
+                    self.edit_rating(2)
             else:
                 pass
         except ValueError:
             self.statusBar().showMessage('Неверный формат ответа.')
-            verdict = ['Неверно', False]
             self.verdictLine.setText('Неверно')
             self.flagLine.setText('Принято')
         except TypeError:
             self.statusBar().showMessage('Неверный формат ответа.')
-            verdict = ['Неверно', False]
             self.verdictLine.setText('Неверно')
             self.flagLine.setText('Принято')
 
@@ -271,6 +249,7 @@ class Menu(QMainWindow):
         super().__init__()
         self.flag = None
         uic.loadUi('zadachnik_menu.ui', self)
+        self.setStyleSheet('background-image: url("background.jpg")')
         self.update_rating()
         task_buttons = [self.square_x_btn, self.line_x_btn, self.sum_btn, self.min_btn, self.mul_btn, self.crop_btn]
         self.training_tasks_btn_group = QButtonGroup(self)
@@ -294,7 +273,7 @@ class Menu(QMainWindow):
         name = button.text()
         if self.flag is None and (name == 'Квадратное уравнение' or name == 'Линейное уравнение'):
             self.flag = Task(name)
-        elif self.flag is None and 'Пример' in name:
+        if self.flag is None and 'Пример' in name:
             self.flag = LevelChangeWindow(name)
         self.flag.show()
         self.hide()
@@ -307,8 +286,13 @@ class Menu(QMainWindow):
         self.hide()
 
 
+def except_hook(cls, exception, traceback):
+    sys.__excepthook__(cls, exception, traceback)
+
+
 if __name__ == '__main__':
     app = QApplication(sys.argv)
+    sys.excepthook = except_hook
     w = Menu()
     w.show()
     app.exec()
