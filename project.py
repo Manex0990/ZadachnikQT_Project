@@ -1,5 +1,4 @@
 from random import randint, uniform
-import sqlite3
 
 
 class MyMath:
@@ -240,7 +239,6 @@ class MyMath:
         """
         Узнает тип примера и уровень.
         """
-        type = ''
         task = task.split()
         stage = 0
 
@@ -251,19 +249,9 @@ class MyMath:
                 stage = 2
         elif len(task) == 9:
             stage = 3
-            task[0] = float(task[0])
-            task[2] = float(task[2])
-            task[4] = float(task[4])
-            task[6] = float(task[6])
 
-        if task[1] == '+':
-            type = 's'
-        elif task[1] == '-':
-            type = 'm'
-        elif task[1] == '*':
-            type = 'mul'
-        elif task[1] == ':':
-            type = 'cr'
+        data = {'+': 's', '-': 'm', '*': 'mul', ':': 'cr'}
+        type = data[task[1]]
 
         return [type, str(stage)]
 
@@ -427,23 +415,3 @@ class MyMath:
         c_mul_3 = round(uniform(1, 10), 2)
         d_mul_3 = randint(1, 10)
         return f'{a_mul_3} * {b_mul_3} * {c_mul_3} * {d_mul_3} = ?'
-
-    def edit_rating_tasks(self, login, true_task):
-        """
-        Изменяет рейтинг.
-        """
-        data_tasks = {'square_x': 15, 'line_x': 10, 's_1': 3, 's_2': 5, 's_3': 10,
-                      'm_1': 3, 'm_2': 5, 'm_3': 10, 'cr_1': 3, 'cr_2': 5,
-                      'cr_3': 10, 'mul_1': 3, 'mul_2': 5, 'mul_3': 10}
-        point = data_tasks[true_task]
-        con = sqlite3.connect('project_db.sqlite')
-        cursor = con.cursor()
-        points = cursor.execute(f'''SELECT points FROM stats WHERE login="{login}"''').fetchone()
-        if not points:
-            points = point
-        else:
-            points = point + points[0]
-        cursor.execute(f'''UPDATE stats SET points={points} WHERE login="{login}"''')
-        con.commit()
-        con.close()
-        return point
