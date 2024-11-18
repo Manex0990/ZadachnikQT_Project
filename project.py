@@ -261,6 +261,20 @@ class MyMath:
         """
         type = self.iddentificate_task(task)[0]
         stage = int(self.iddentificate_task(task)[1])
+        '''
+        type = self.iddentificate_task(task)[0]
+        stage = int(self.iddentificate_task(task)[1])
+        data_types = {'s': '+', 'm': '-', 'mul': '*', 'cr': '/'}
+        data_stage = {1: self.search_coofs_for_stage_1_2, 2: self.search_coofs_for_stage_1_2,
+                      3: self.search_coofs_for_stage_3}
+        math_sign = data_types[type]
+        div = f' {math_sign} '
+        method = data_stage[stage]
+        params = method(task)
+        task_string = div.join(params)
+        answer = eval(task_string)
+        return answer
+        '''
         if type == 's':
             if stage == 1:
                 a, b = self.search_coofs_for_stage_1_2(task)
@@ -284,7 +298,7 @@ class MyMath:
         elif type == 'cr':
             if stage == 1:
                 a, b = self.search_coofs_for_stage_1_2(task)
-                return a / b
+                return round(a / b, 2)
             elif stage == 2:
                 a, b = self.search_coofs_for_stage_1_2(task)
                 return round(a / b, 2)
@@ -294,7 +308,7 @@ class MyMath:
         elif type == 'mul':
             if stage == 1:
                 a, b = self.search_coofs_for_stage_1_2(task)
-                return a * b
+                return round(a * b, 2)
             elif stage == 2:
                 a, b = self.search_coofs_for_stage_1_2(task)
                 return round(a * b, 2)
