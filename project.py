@@ -251,31 +251,17 @@ class MyMath:
             stage = 3
 
         data = {'+': 's', '-': 'm', '*': 'mul', ':': 'cr'}
-        type = data[task[1]]
+        type_task = data[task[1]]
 
-        return [type, str(stage)]
+        return [type_task, str(stage)]
 
     def answer_for_all_stages(self, task):
         """
         Находит решение на любой пример всех сложностей.
         """
-        type = self.iddentificate_task(task)[0]
+        type_task = self.iddentificate_task(task)[0]
         stage = int(self.iddentificate_task(task)[1])
-        '''
-        type = self.iddentificate_task(task)[0]
-        stage = int(self.iddentificate_task(task)[1])
-        data_types = {'s': '+', 'm': '-', 'mul': '*', 'cr': '/'}
-        data_stage = {1: self.search_coofs_for_stage_1_2, 2: self.search_coofs_for_stage_1_2,
-                      3: self.search_coofs_for_stage_3}
-        math_sign = data_types[type]
-        div = f' {math_sign} '
-        method = data_stage[stage]
-        params = method(task)
-        task_string = div.join(params)
-        answer = eval(task_string)
-        return answer
-        '''
-        if type == 's':
+        if type_task == 's':
             if stage == 1:
                 a, b = self.search_coofs_for_stage_1_2(task)
                 return a + b
@@ -285,7 +271,7 @@ class MyMath:
             elif stage == 3:
                 a, b, c, d = self.search_coofs_for_stage_3(task)
                 return round(a + b + c + d, 2)
-        elif type == 'm':
+        elif type_task == 'm':
             if stage == 1:
                 a, b = self.search_coofs_for_stage_1_2(task)
                 return a - b
@@ -295,7 +281,7 @@ class MyMath:
             elif stage == 3:
                 a, b, c, d = self.search_coofs_for_stage_3(task)
                 return round(a - b - c - d, 2)
-        elif type == 'cr':
+        elif type_task == 'cr':
             if stage == 1:
                 a, b = self.search_coofs_for_stage_1_2(task)
                 return round(a / b, 2)
@@ -305,7 +291,7 @@ class MyMath:
             elif stage == 3:
                 a, b, c, d = self.search_coofs_for_stage_3(task)
                 return round(a / b / c / d, 2)
-        elif type == 'mul':
+        elif type_task == 'mul':
             if stage == 1:
                 a, b = self.search_coofs_for_stage_1_2(task)
                 return round(a * b, 2)
@@ -316,13 +302,14 @@ class MyMath:
                 a, b, c, d = self.search_coofs_for_stage_3(task)
                 return round(a * b * c * d, 2)
 
+
     def check_answer_for_all_stages(self, task, user_answer):
         """
         Проверить ответ пользователя на любой пример.
         """
-        type = '_'.join(self.iddentificate_task(task))
+        type_task = '_'.join(self.iddentificate_task(task))
         if user_answer == self.answer_for_all_stages(task):
-            return ['Верно. Продолжайте в том же духе.', True, type]
+            return ['Верно. Продолжайте в том же духе.', True, type_task]
         else:
             return ['Неверно. Проверьте рассчеты и попробуйте позже.', False]
 
