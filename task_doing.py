@@ -179,9 +179,9 @@ class TaskWindow(object):
                                             "Ответ напишите в строке \'Ответ\' в соответствии с правилами формата ответа(читайте ниже)."))
             self.label_4.setText(_translate("MainWindow", "Правила формата ответа:"))
             self.label_5.setText(_translate("MainWindow", "1) Строка \"Корней нет\""))
-            self.label_6.setText(_translate("MainWindow", "2) Одно число - корень, если дробное - округлите до сотых."))
+            self.label_6.setText(_translate("MainWindow", "2) Одно число - корень, если дробное - округлите до сотых(разделитель точка)."))
             self.label_7.setText(_translate("MainWindow",
-                                            "3) Два числа через пробел в порядке возрастания - корни, дробные числа округлите до сотых."))
+                                            "3) Два числа через пробел в порядке возрастания - корни, дробные числа округлите до сотых(разделитель точка)."))
             self.label_9.setText(_translate("MainWindow", "Ответ:"))
             self.answer_btn.setText(_translate("MainWindow", "Ответить"))
             self.exit_btn.setText(_translate("MainWindow", "Выйти в главное меню"))
@@ -191,7 +191,7 @@ class TaskWindow(object):
             self.label.setText(_translate("MainWindow", "Задание Линейное уравнение"))
             self.label_2.setText(_translate("MainWindow", "Задача: Решите линейное уравнение."))
             self.label_3.setText(_translate("MainWindow",
-                                            "Введите только число - корень уравнения(решение примера), если он дробный, то сократите до сотых."))
+                                            "Введите только число - корень уравнения(решение примера), если он дробный, то сократите до сотых(разделитель точка)."))
             self.label_9.setText(_translate("MainWindow", "Ответ:"))
             self.answer_btn.setText(_translate("MainWindow", "Ответить"))
             self.exit_btn.setText(_translate("MainWindow", "Выйти в главное меню"))
