@@ -1,17 +1,22 @@
 from project import MyMath
 import sys
-from PyQt6 import uic
 from PyQt6.QtWidgets import QApplication, QMainWindow, QButtonGroup
 import sqlite3
+from zadachnik_menu import MenuWindow
+from task_doing import SquareXWindow
+from task_doing_1 import LineXAndOtherTasksWindow
+from test_doing import TestOpenWindow
+from easy_test_doing import TestDoingWindow
+from change_level import ChangeLevelWindow
 
 
-class LevelChangeWindow(QMainWindow):
+class LevelChangeWindow(QMainWindow, ChangeLevelWindow):
     def __init__(self, btn):
         super().__init__()
+        self.setupUi(self)
         self.stage = 0
         self.btn = btn
-        self.flag = None
-        uic.loadUi('change_level.ui', self)
+        self.open_task = None
         self.levels = QButtonGroup(self)
         self.levels.addButton(self.easy_btn)
         self.levels.addButton(self.medium_btn)
@@ -25,55 +30,53 @@ class LevelChangeWindow(QMainWindow):
             self.stage = 2
         else:
             self.stage = 3
-        if self.flag is None:
-            self.flag = Task(self.btn, self.stage)
-        self.flag.show()
+        if self.open_task is None:
+            self.open_task = Task(self.btn, self.stage)
+        self.open_task.show()
         self.hide()
 
 
-class Task(QMainWindow):
+class Task(QMainWindow, SquareXWindow, LineXAndOtherTasksWindow):
     def __init__(self, btn, level=0, test=None):
         super().__init__()
         self.ex = MyMath()
-        self.flag1 = None
-        self.flag2 = None
-        self.flag3 = 0
+        self.main_window_open = None
+        self.counter = 0
         self.btn = btn
         self.stage = level
         self.test = test
         self.methods_with_levels = {
             'Квадратное уравнение': ('Задание Квадратное уравнение', 'Задача: Решите квадратное уравнение.',
-                                     'task_doing.ui', {0: self.ex.generate_square_x},
+                                     self.setupUi(self), {0: self.ex.generate_square_x},
                                      self.check_task_square_x),
             'Линейное уравнение': ('Задание Линейное уравнение', 'Задача: Решите линейное уравнение.',
-                                   'task_doing_1.ui', {0: self.ex.generate_line_x},
+                                   self.setupUi(self), {0: self.ex.generate_line_x},
                                    self.check_task_all_stages_and_line_x),
             'Пример на сложение': ('Задание Пример на сложение', 'Задача: Решите пример на сложение.',
-                                   'task_doing_1.ui', {1: self.ex.generate_sum_stage_1,
-                                                       2: self.ex.generate_sum_stage_2,
-                                                       3: self.ex.generate_sum_stage_3},
+                                   self.setupUi(self), {1: self.ex.generate_sum_stage_1,
+                                                        2: self.ex.generate_sum_stage_2,
+                                                        3: self.ex.generate_sum_stage_3},
                                    self.check_task_all_stages_and_line_x),
             'Пример на вычитание': ('Задание Пример на вычитание', 'Задача: Решите пример на вычитание.',
-                                    'task_doing_1.ui', {1: self.ex.generate_min_stage_1,
-                                                        2: self.ex.generate_min_stage_2,
-                                                        3: self.ex.generate_min_stage_3},
+                                    self.setupUi(self), {1: self.ex.generate_min_stage_1,
+                                                         2: self.ex.generate_min_stage_2,
+                                                         3: self.ex.generate_min_stage_3},
                                     self.check_task_all_stages_and_line_x),
             'Пример на умножение': ('Задание Пример на умножение', 'Задача: Решите пример на умножение.',
-                                    'task_doing_1.ui', {1: self.ex.generate_multiply_stage_1,
-                                                        2: self.ex.generate_multiply_stage_2,
-                                                        3: self.ex.generate_multiply_stage_3},
+                                    self.setupUi(self), {1: self.ex.generate_multiply_stage_1,
+                                                         2: self.ex.generate_multiply_stage_2,
+                                                         3: self.ex.generate_multiply_stage_3},
                                     self.check_task_all_stages_and_line_x),
             'Пример на деление': ('Задание Пример на деление', 'Задача: Решите пример на деление.',
-                                  'task_doing_1.ui', {1: self.ex.generate_crop_stage_1,
-                                                      2: self.ex.generate_crop_stage_2,
-                                                      3: self.ex.generate_crop_stage_3},
+                                  self.setupUi(self), {1: self.ex.generate_crop_stage_1,
+                                                       2: self.ex.generate_crop_stage_2,
+                                                       3: self.ex.generate_crop_stage_3},
                                   self.check_task_all_stages_and_line_x)}
         self.create_task_type(self.methods_with_levels[self.btn])
 
     def create_task_type(self, generate_methods):
         text1, text2, ui_file, method, check_method = generate_methods
         method = method[self.stage]
-        uic.loadUi(ui_file, self)
         self.label.setText(text1)
         self.label_2.setText(text2)
         self.task = method()
@@ -87,7 +90,7 @@ class Task(QMainWindow):
             verdict = self.ex.check_answer_square_x(self.task, user_answer)
             self.verdictLine.setText(verdict[0])
             self.flagLine.setText('Принято')
-            if verdict[1] and self.flag3 == 0:
+            if verdict[1] and self.counter == 0:
                 self.corr = verdict[2]
                 if self.test is None:
                     self.edit_rating(1)
@@ -97,7 +100,7 @@ class Task(QMainWindow):
             verdict = self.ex.check_answer_square_x(self.task, user_answer)
             self.verdictLine.setText(verdict[0])
             self.flagLine.setText('Принято')
-            if verdict[1] and self.flag3 == 0:
+            if verdict[1] and self.counter == 0:
                 self.corr = verdict[2]
                 if self.test is None:
                     self.edit_rating(1)
@@ -110,7 +113,7 @@ class Task(QMainWindow):
                 verdict = self.ex.check_answer_square_x(self.task, user_answer)
                 self.verdictLine.setText(verdict[0])
                 self.flagLine.setText('Принято')
-                if verdict[1] and self.flag3 == 0:
+                if verdict[1] and self.counter == 0:
                     self.corr = verdict[2]
                     if self.test is None:
                         self.edit_rating(1)
@@ -135,7 +138,7 @@ class Task(QMainWindow):
                 verdict = self.ex.check_answer_for_all_stages(self.task, user_answer)
             self.verdictLine.setText(verdict[0])
             self.flagLine.setText('Принято')
-            if verdict[1] and self.flag3 == 0:
+            if verdict[1] and self.counter == 0:
                 self.corr = verdict[2]
                 if self.test is None:
                     self.edit_rating(1)
@@ -153,7 +156,7 @@ class Task(QMainWindow):
             self.flagLine.setText('Принято')
 
     def edit_rating(self, cof):
-        self.flag3 = 1
+        self.counter = 1
         con = sqlite3.connect('rating_db.sqlite')
         cur = con.cursor()
         query = f'''SELECT point FROM points WHERE tilte = "{self.corr}"'''
@@ -166,19 +169,19 @@ class Task(QMainWindow):
         con.close()
 
     def exit(self):
-        if self.flag1 is None:
-            self.flag1 = Menu()
-        self.flag1.show()
+        if self.main_window_open is None:
+            self.main_window_open = Menu()
+        self.main_window_open.show()
         self.hide()
 
 
-class Opentest(QMainWindow):
+class OpenTest(QMainWindow, TestOpenWindow):
     def __init__(self, btn):
         super().__init__()
+        self.setupUi(self)
         self.ex = MyMath()
-        self.flag = None
-        self.flag1 = None
-        uic.loadUi('test_doing.ui', self)
+        self.open_test_window = None
+        self.open_main_window = None
         if btn == 'Легкий тест':
             self.level = 1
         elif btn == 'Сложный тест':
@@ -189,36 +192,30 @@ class Opentest(QMainWindow):
         self.exit_btn.clicked.connect(self.exit)
 
     def test(self):
-        if self.flag1 is None:
-            self.flag1 = Test(self.level)
-        self.flag1.show()
+        if self.open_test_window is None:
+            self.open_test_window = Test(self.level)
+        self.open_test_window.show()
         self.hide()
 
     def exit(self):
-        if self.flag is None:
-            self.flag = Menu()
-        self.flag.show()
+        if self.open_main_window is None:
+            self.open_main_window = Menu()
+        self.open_main_window.show()
         self.hide()
 
 
-class Test(QMainWindow):
+class Test(QMainWindow, TestDoingWindow):
     def __init__(self, level):
         super().__init__()
-        self.flag = None
+        self.setupUi(self)
+        self.open_main_window = None
         self.level = level
-        uic.loadUi('easy_test_doing.ui', self)
-        self.tasksTabs.removeTab(0)
-        self.tasksTabs.removeTab(1)
         if self.level == 1:
             self.data = [Task('Квадратное уравнение', test=self), Task('Линейное уравнение', test=self),
                          Task('Пример на сложение', level=1, test=self),
                          Task('Пример на вычитание', level=1, test=self),
-                         Task('Пример на умножение', level=1, test=self), Task('Пример на деление', level=1, test=self)]
-            for i in range(len(self.data)):
-                self.tasksTabs.addTab(self.data[i], str(i + 1))
-            for i in range(len(self.data)):
-                self.data[i].verdictLine.hide()
-                self.data[i].exit_btn.hide()
+                         Task('Пример на умножение', level=1, test=self),
+                         Task('Пример на деление', level=1, test=self)]
         elif self.level == 2:
             self.data = [Task('Квадратное уравнение', test=self), Task('Линейное уравнение', test=self),
                          Task('Пример на сложение', level=2, test=self),
@@ -229,26 +226,25 @@ class Test(QMainWindow):
                          Task('Пример на умножение', level=3, test=self),
                          Task('Пример на деление', level=2, test=self),
                          Task('Пример на деление', level=3, test=self)]
-            for i in range(len(self.data)):
-                self.tasksTabs.addTab(self.data[i], str(i + 1))
-            for i in range(len(self.data)):
-                self.data[i].verdictLine.hide()
-                self.data[i].exit_btn.hide()
-        self.tasksTabs.removeTab(0)
+        for i in range(len(self.data)):
+            self.tasksTabs.addTab(self.data[i], str(i + 1))
+        for i in range(len(self.data)):
+            self.data[i].verdictLine.hide()
+            self.data[i].exit_btn.hide()
         self.end_btn.clicked.connect(self.exit)
 
     def exit(self):
-        if self.flag is None:
-            self.flag = Menu()
-        self.flag.show()
+        if self.open_main_window is None:
+            self.open_main_window = Menu()
+        self.open_main_window.show()
         self.hide()
 
 
-class Menu(QMainWindow):
+class Menu(QMainWindow, MenuWindow):
     def __init__(self):
         super().__init__()
-        self.flag = None
-        uic.loadUi('zadachnik_menu.ui', self)
+        self.open_task = None
+        self.setupUi(self)
         self.setStyleSheet('background-image: url("background.jpg")')
         self.update_rating()
         task_buttons = [self.square_x_btn, self.line_x_btn, self.sum_btn, self.min_btn, self.mul_btn, self.crop_btn]
@@ -268,21 +264,22 @@ class Menu(QMainWindow):
         query = '''SELECT rating FROM main WHERE id = "YOU"'''
         rating = cur.execute(query).fetchone()
         self.rating.display(rating[0])
+        con.close()
 
     def open_task_window(self, button):
         name = button.text()
-        if self.flag is None and (name == 'Квадратное уравнение' or name == 'Линейное уравнение'):
-            self.flag = Task(name)
-        if self.flag is None and 'Пример' in name:
-            self.flag = LevelChangeWindow(name)
-        self.flag.show()
+        if self.open_task is None and (name == 'Квадратное уравнение' or name == 'Линейное уравнение'):
+            self.open_task = Task(name)
+        if self.open_task is None and 'Пример' in name:
+            self.open_task = LevelChangeWindow(name)
+        self.open_task.show()
         self.hide()
 
     def open_test_window(self, button):
         name = button.text()
-        if self.flag is None:
-            self.flag = Opentest(name)
-        self.flag.show()
+        if self.open_task is None:
+            self.open_task = OpenTest(name)
+        self.open_task.show()
         self.hide()
 
 
