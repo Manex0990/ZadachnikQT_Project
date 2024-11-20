@@ -3,8 +3,7 @@ import sys
 from PyQt6.QtWidgets import QApplication, QMainWindow, QButtonGroup
 import sqlite3
 from zadachnik_menu import MenuWindow
-from task_doing import SquareXWindow
-from task_doing_1 import LineXAndOtherTasksWindow
+from task_doing import TaskWindow
 from test_doing import TestOpenWindow
 from easy_test_doing import TestDoingWindow
 from change_level import ChangeLevelWindow
@@ -36,7 +35,7 @@ class LevelChangeWindow(QMainWindow, ChangeLevelWindow):
         self.hide()
 
 
-class Task(QMainWindow, SquareXWindow, LineXAndOtherTasksWindow):
+class Task(QMainWindow, TaskWindow):
     def __init__(self, btn, level=0, test=None):
         super().__init__()
         self.ex = MyMath()
@@ -47,36 +46,37 @@ class Task(QMainWindow, SquareXWindow, LineXAndOtherTasksWindow):
         self.test = test
         self.methods_with_levels = {
             'Квадратное уравнение': ('Задание Квадратное уравнение', 'Задача: Решите квадратное уравнение.',
-                                     self.setupUi(self), {0: self.ex.generate_square_x},
+                                     'square_x', {0: self.ex.generate_square_x},
                                      self.check_task_square_x),
             'Линейное уравнение': ('Задание Линейное уравнение', 'Задача: Решите линейное уравнение.',
-                                   self.setupUi(self), {0: self.ex.generate_line_x},
+                                   'other_task', {0: self.ex.generate_line_x},
                                    self.check_task_all_stages_and_line_x),
             'Пример на сложение': ('Задание Пример на сложение', 'Задача: Решите пример на сложение.',
-                                   self.setupUi(self), {1: self.ex.generate_sum_stage_1,
-                                                        2: self.ex.generate_sum_stage_2,
-                                                        3: self.ex.generate_sum_stage_3},
+                                   'other_task', {1: self.ex.generate_sum_stage_1,
+                                                                      2: self.ex.generate_sum_stage_2,
+                                                                      3: self.ex.generate_sum_stage_3},
                                    self.check_task_all_stages_and_line_x),
             'Пример на вычитание': ('Задание Пример на вычитание', 'Задача: Решите пример на вычитание.',
-                                    self.setupUi(self), {1: self.ex.generate_min_stage_1,
-                                                         2: self.ex.generate_min_stage_2,
-                                                         3: self.ex.generate_min_stage_3},
+                                    'other_task', {1: self.ex.generate_min_stage_1,
+                                                                       2: self.ex.generate_min_stage_2,
+                                                                       3: self.ex.generate_min_stage_3},
                                     self.check_task_all_stages_and_line_x),
             'Пример на умножение': ('Задание Пример на умножение', 'Задача: Решите пример на умножение.',
-                                    self.setupUi(self), {1: self.ex.generate_multiply_stage_1,
-                                                         2: self.ex.generate_multiply_stage_2,
-                                                         3: self.ex.generate_multiply_stage_3},
+                                    'other_task', {1: self.ex.generate_multiply_stage_1,
+                                                                       2: self.ex.generate_multiply_stage_2,
+                                                                       3: self.ex.generate_multiply_stage_3},
                                     self.check_task_all_stages_and_line_x),
             'Пример на деление': ('Задание Пример на деление', 'Задача: Решите пример на деление.',
-                                  self.setupUi(self), {1: self.ex.generate_crop_stage_1,
-                                                       2: self.ex.generate_crop_stage_2,
-                                                       3: self.ex.generate_crop_stage_3},
+                                  'other_task', {1: self.ex.generate_crop_stage_1,
+                                                                     2: self.ex.generate_crop_stage_2,
+                                                                     3: self.ex.generate_crop_stage_3},
                                   self.check_task_all_stages_and_line_x)}
         self.create_task_type(self.methods_with_levels[self.btn])
 
     def create_task_type(self, generate_methods):
         text1, text2, ui_file, method, check_method = generate_methods
         method = method[self.stage]
+        self.setupUi(self, ui_file)
         self.label.setText(text1)
         self.label_2.setText(text2)
         self.task = method()
