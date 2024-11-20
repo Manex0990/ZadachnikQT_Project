@@ -120,7 +120,7 @@ class TaskWindow(object):
             self.label_2.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
             self.label_2.setObjectName("label_2")
             self.label_3 = QtWidgets.QLabel(parent=self.centralwidget)
-            self.label_3.setGeometry(QtCore.QRect(40, 110, 761, 20))
+            self.label_3.setGeometry(QtCore.QRect(40, 110, 871, 20))
             font = QtGui.QFont()
             font.setPointSize(10)
             font.setBold(True)
