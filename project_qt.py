@@ -86,47 +86,15 @@ class Task(QMainWindow, TaskWindow):
 
     def check_task_square_x(self):
         user_answer = self.answerLine.text()
-        if user_answer == 'Корней нет':
-            verdict = self.ex.check_answer_square_x(self.task, user_answer)
-            self.verdictLine.setText(verdict[0])
-            self.flagLine.setText('Принято')
-            if verdict[1] and self.counter == 0:
-                self.corr = verdict[2]
-                if self.test is None:
-                    self.edit_rating(1)
-                else:
-                    self.edit_rating(2)
-        elif user_answer.isalnum():
-            verdict = self.ex.check_answer_square_x(self.task, user_answer)
-            self.verdictLine.setText(verdict[0])
-            self.flagLine.setText('Принято')
-            if verdict[1] and self.counter == 0:
-                self.corr = verdict[2]
-                if self.test is None:
-                    self.edit_rating(1)
-                else:
-                    self.edit_rating(2)
-        else:
-            try:
-                user_answer = user_answer.split()
-                user_answer = sorted(list(map(float, user_answer)))
-                verdict = self.ex.check_answer_square_x(self.task, user_answer)
-                self.verdictLine.setText(verdict[0])
-                self.flagLine.setText('Принято')
-                if verdict[1] and self.counter == 0:
-                    self.corr = verdict[2]
-                    if self.test is None:
-                        self.edit_rating(1)
-                    else:
-                        self.edit_rating(2)
-            except ValueError:
-                self.statusBar().showMessage('Неверный формат ответа.')
-                self.verdictLine.setText('Неверно')
-                self.flagLine.setText('Принято')
-            except TypeError:
-                self.statusBar().showMessage('Неверный формат ответа.')
-                self.verdictLine.setText('Неверно')
-                self.flagLine.setText('Принято')
+        verdict = self.ex.check_answer_square_x(self.task, user_answer)
+        self.verdictLine.setText(verdict[0])
+        self.flagLine.setText('Принято')
+        if verdict[1] and self.counter == 0:
+            self.corr = verdict[2]
+            if self.test is None:
+                self.edit_rating(1)
+            else:
+                self.edit_rating(2)
 
     def check_task_all_stages_and_line_x(self):
         user_answer = self.answerLine.text()
