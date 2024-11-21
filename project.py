@@ -110,20 +110,26 @@ class MyMath:
         d = (abs(b_sq) ** 2) - (4 * a_sq * c_sq)
         if d == 0:
             answer = (-b_sq) / (2 * a_sq)
-            return float(answer)
+            if int(answer) == answer:
+                answer = int(answer)
+            elif int(answer) != answer:
+                answer = round(answer, 2)
+            return str(answer)
 
         elif d > 0:
             x1 = (-b_sq - d ** 0.5) / (2 * a_sq)
             x2 = (-b_sq + d ** 0.5) / (2 * a_sq)
-            if int(x1) == x1 and isinstance(x2, float):
+            if int(x1) == x1 and int(x2) != x2:
                 answer = sorted([int(x1), round(x2, 2)])
-            elif int(x2) == x2 and isinstance(x1, float):
+            elif int(x1) != x1 and int(x2) == x2:
                 answer = sorted([round(x1, 2), int(x2)])
             elif int(x1) == x1 and int(x2) == x2:
                 answer = sorted([int(x1), int(x2)])
-            else:
+            elif int(x1) != x1 and int(x2) != x2:
                 answer = sorted([round(x1, 2), round(x2, 2)])
-            return answer
+            for i in range(len(answer)):
+                answer[i] = str(answer[i])
+            return ' '.join(answer)
 
         else:
             answer = 'Корней нет'
@@ -136,23 +142,10 @@ class MyMath:
         2) один корень - целое чило или дробное(округлите до сотых) число
         3) строка 'Корней нет'
         """
-        if user_answer == 'Корней нет':
-            if str(self.answer_square_x(task)) == user_answer:
-                return ['Верно. Продолжайте в том же духе.', True, 'square_x']
-            else:
-                return [f'Неверно. Проверьте расчеты и попробуйте позже.', False]
-
-        elif isinstance(user_answer, float):
-            if float(user_answer) == float(self.answer_square_x(task)):
-                return ['Верно. Продолжайте в том же духе.', True, 'square_x']
-            else:
-                return [f'Неверно. Проверьте расчеты и попробуйте позже.', False]
-
+        if str(user_answer) == str(self.answer_square_x(task)):
+            return ['Верно. Продолжайте в том же духе.', True, 'square_x']
         else:
-            if sorted(user_answer) == list(self.answer_square_x(task)):
-                return ['Верно. Продолжайте в том же духе.', True, 'square_x']
-            else:
-                return [f'Неверно. Проверьте расчеты и попробуйте позже.', False]
+            return ['Неверно. Проверьте расчёты и попробуйте еще раз.', False]
 
     def generate_line_x(self):
         """
@@ -245,7 +238,8 @@ class MyMath:
         if len(task) == 5:
             if task[0].isdigit() and task[2].isdigit():
                 stage = 1
-            elif (len(task[0]) == 3 or len(task[0]) == 4) or (len(task[2]) == 3 or len(task[2]) == 4):
+            elif ((len(task[0]) == 3 or len(task[0]) == 4 or len(task[0]) == 5) or
+                  (len(task[2]) == 3 or len(task[2]) == 4 or len(task[0]) == 5)):
                 stage = 2
         elif len(task) == 9:
             stage = 3
@@ -301,7 +295,6 @@ class MyMath:
             elif stage == 3:
                 a, b, c, d = self.search_coofs_for_stage_3(task)
                 return round(a * b * c * d, 2)
-
 
     def check_answer_for_all_stages(self, task, user_answer):
         """
